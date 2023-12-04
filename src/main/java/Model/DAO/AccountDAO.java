@@ -11,12 +11,14 @@ public class AccountDAO {
         try {
             String query = "SELECT * FROM account WHERE username = ? AND password = ?";
             ResultSet rs = DBHelper.query(query, username, password);
-            if (rs != null && rs.next()) {
+            boolean res = false;
+            if (rs != null) {
+                if(rs.next()) {
+                    res = true;
+                }
                 rs.close();
-                return true;
             }
-            if (rs != null) rs.close();
-            return false;
+            return res;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

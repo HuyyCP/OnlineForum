@@ -2,28 +2,16 @@ package Model.DAO;
 
 import Helper.DBHelper;
 import Model.Bean.User;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
 
 public class UserDAO {
 
-    Connection conn;
-
-    public UserDAO() {
-        conn = DBHelper.getConnection();
-    }
-
     public ArrayList<User> getAllUsers() {
         try {
-            String query = "SELECT * " +
-                            "FROM user ";
-            PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();
+            String query = "SELECT * FROM user ";
+            ResultSet rs = DBHelper.query(query);
             ArrayList<User> users = new ArrayList<>();
             while(rs.next()) {
                 User user = new User();
@@ -36,7 +24,6 @@ public class UserDAO {
                 user.setIdRole(rs.getString("idrole"));
                 users.add(user);
             }
-            statement.close();
             return users;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -44,55 +31,18 @@ public class UserDAO {
     }
 
     public void addUser(User user) {
-        try {
-            String query = "INSERT INTO post (iduser, name, email, dateofbirth, phonenumber, datecreate, idrole) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, user.getIdUser());
-            statement.setString(2, user.getName());
-            statement.setString(3, user.getEmail());
-            statement.setDate(4, (Date)user.getDob());
-            statement.setString(5, user.getPhoneNumber());
-            statement.setDate(6, (Date)user.getDateCreated());
-            statement.setString(7, user.getIdRole());
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        String query = "INSERT INTO post (iduser, name, email, dateofbirth, phonenumber, datecreate, idrole) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        DBHelper.execute(query, user.getIdUser(), user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getDateCreated(), user.getIdRole());
     }
 
     public void updateUser(User user) {
-        try {
-            String query = "UPDATE user " +
-                            "SET iduser = ?, name = ?, email = ?, dateofbirth = ?, phonenumber = ?, datecreate = ?, idrole = ?" +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, user.getIdUser());
-            statement.setString(2, user.getName());
-            statement.setString(3, user.getEmail());
-            statement.setDate(4, (Date)user.getDob());
-            statement.setString(5, user.getPhoneNumber());
-            statement.setDate(6, (Date)user.getDateCreated());
-            statement.setString(7, user.getIdRole());
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        String query = "UPDATE user SET name = ?, email = ?, dateofbirth = ?, phonenumber = ?, datecreate = ?, idrole = ? WHERE iduser = ?";
+        DBHelper.execute(query, user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getDateCreated(), user.getIdRole(), user.getIdUser());
     }
 
     // Khong nen xoa user
     public void deleteUser(String idUser) {
-        try {
-            String query = "DELETE FROM user " +
-                            "WHERE iduser = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, idUser);
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        String query = "DELETE FROM user WHERE iduser = ?";
+        DBHelper.execute(query, idUser);
     }
 }
