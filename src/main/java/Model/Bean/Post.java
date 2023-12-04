@@ -9,6 +9,7 @@ public class Post {
     private String idUser;
     private String idSubject;
 
+
     public String getIdPost() {
         return idPost;
     }

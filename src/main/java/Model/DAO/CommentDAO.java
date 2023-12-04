@@ -73,4 +73,9 @@ public class CommentDAO {
         DBHelper.execute(query, idComment);
     }
 
+    public void deleteCommentByPostID(String idPost) {
+        String query = "DELETE FROM comment WHERE idpost = ?";
+        DBHelper.execute(query, idPost);
+    }
+
 }

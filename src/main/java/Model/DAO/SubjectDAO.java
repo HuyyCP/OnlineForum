@@ -1,6 +1,7 @@
 package Model.DAO;
 
 import Helper.DBHelper;
+import Model.Bean.SubSubject;
 import Model.Bean.Subject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ public class SubjectDAO {
                 Subject subject = new Subject();
                 subject.setIdSubject(rs.getString("idsubject"));
                 subject.setSubjectName(rs.getString("subjectname"));
+                subject.setEnable(rs.getBoolean("status"));
                 subjects.add(subject);
             }
             return subjects;
@@ -24,6 +26,7 @@ public class SubjectDAO {
             throw new RuntimeException(e);
         }
     }
+
 
     public void addSubject(Subject subject) {
         String query = "INSERT INTO subject (idsubject, subjectname) VALUES (?, ?)";
@@ -34,5 +37,4 @@ public class SubjectDAO {
         String query = "DELETE FROM subject WHERE idsubject = ?";
         DBHelper.execute(query, idSubject);
     }
-
 }

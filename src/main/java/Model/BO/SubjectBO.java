@@ -2,15 +2,18 @@ package Model.BO;
 
 import Model.Bean.Subject;
 import Model.DAO.SubjectDAO;
+import Model.DAO.SubsubjectDAO;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class SubjectBO {
 
     private SubjectDAO subjectDAO;
+    private SubsubjectDAO subsubjectDAO;
 
     public SubjectBO() {
         subjectDAO = new SubjectDAO();
+        subsubjectDAO = new SubsubjectDAO();
     }
 
     public ArrayList<Subject> getAllSubjects() {
@@ -23,6 +26,7 @@ public class SubjectBO {
     }
 
     public void deleteSubject(String idSubject) {
+        subsubjectDAO.deleteSubSubject(idSubject);
         subjectDAO.deleteSubject(idSubject);
     }
 

@@ -36,4 +36,9 @@ public class PostDAO {
         String query = "DELETE FROM post WHERE idpost = ?";
         DBHelper.execute(query, idPost);
     }
+
+    public void deletePostBySubjectID(String idSubject) {
+        String query = "DELETE FROM post WHERE idsubject = ?";
+        DBHelper.execute(query, idSubject);
+    }
 }

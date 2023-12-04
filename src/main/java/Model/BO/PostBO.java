@@ -2,6 +2,7 @@ package Model.BO;
 
 import DTO.PostDTO;
 import Model.Bean.Post;
+import Model.DAO.SubsubjectDAO;
 import Model.DAO.UserDAO;
 import Model.DAO.CommentDAO;
 import Model.DAO.PostDAO;
@@ -15,12 +16,14 @@ public class PostBO {
 
     private PostDAO postDAO;
     private CommentDAO commentDAO;
+    private SubsubjectDAO subsubjectDAO;
     private UserDAO userDAO;
 
     public PostBO() {
         postDAO = new PostDAO();
         commentDAO = new CommentDAO();
         userDAO = new UserDAO();
+        subsubjectDAO = new SubsubjectDAO();
     }
 
     public ArrayList<PostDTO> getAllPostsBySubjectID(String idSubject) {
@@ -45,7 +48,12 @@ public class PostBO {
         postDAO.addPost(post);
     }
 
+    public boolean isEnable(String idSubject) {
+        return subsubjectDAO.isEnable(idSubject);
+    }
+
     public void deletePost(String idPost) {
+        commentDAO.deleteCommentByPostID(idPost);
         postDAO.deletePost(idPost);
     }
 }
