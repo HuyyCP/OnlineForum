@@ -10,7 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "MainController", urlPatterns = {"/home", "/index.jsp", "/listpost", ""})
+@WebServlet(name = "MainController", urlPatterns = {"/home", "/", "/listpost", ""})
 public class MainController extends HttpServlet {
     private String message;
 
