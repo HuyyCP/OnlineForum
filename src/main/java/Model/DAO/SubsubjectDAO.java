@@ -2,6 +2,8 @@ package Model.DAO;
 
 import Helper.DBHelper;
 import Model.Bean.SubSubject;
+
+import javax.security.auth.Subject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,12 +51,12 @@ public class SubsubjectDAO {
         }
     }
 
-    public String getSubSubjectName(String idSubSubject) {
+    public SubSubject getSubSubject(String idSubSubject) {
         try {
             String query = "SELECT * FROM subsubject WHERE idsubject = ?";
             ResultSet rs = DBHelper.query(query, idSubSubject);
             if(rs.next()) {
-                return getSubSubject(rs).getSubjectName();
+                return getSubSubject(rs);
             }
             return null;
         } catch (SQLException e) {

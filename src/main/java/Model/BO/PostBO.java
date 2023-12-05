@@ -56,9 +56,9 @@ public class PostBO {
         postDetailDTO.setDateCreated(post.getDateCreated());
         postDetailDTO.setIdSubSubject(post.getIdSubSubject());
         postDetailDTO.setIdUser(post.getIdUser());
-        postDetailDTO.setSubjectName(subjectDAO.getSubjectByID(subsubjectDAO.getSubjectID(post.getIdSubSubject())).getSubjectName());
-        postDetailDTO.setSubsubjectName(subsubjectDAO.getSubSubjectName(post.getIdSubSubject()));
-        postDetailDTO.setIdSubject(subjectDAO.getSubjectByID(subsubjectDAO.getSubjectID(post.getIdSubSubject())).getIdSubject());
+        postDetailDTO.setSubjectName(subjectDAO.getSubjectByID(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getIdParentSubject()).getSubjectName());
+        postDetailDTO.setSubsubjectName(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getSubjectName());
+        postDetailDTO.setIdSubject(subjectDAO.getSubjectByID(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getIdParentSubject()).getIdSubject());
         postDetailDTO.setCommentDTOs(commentBO.getAllCommentsByPostID(post.getIdPost()));
         return postDetailDTO;
     }
