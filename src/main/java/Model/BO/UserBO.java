@@ -31,7 +31,7 @@ public class UserBO {
     }
 
     public User getUserById(String id) {
-        return userDAO.getUserById(id);
+        return userDAO.getUserByID(id);
     }
 
     public void updateUser(User user) {

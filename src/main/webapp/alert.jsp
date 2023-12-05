@@ -21,8 +21,8 @@
     }
     %>
     var registrationStatus = "<%= registrationStatus %>";
-    var loginStatus = "<%= loginStatus %>";
 
+    var loginStatus = "<%= loginStatus %>";
     if (loginStatus === "success") {
       Swal.fire({
         title: 'Thành công!',
