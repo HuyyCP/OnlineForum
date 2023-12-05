@@ -30,6 +30,27 @@ public class UserDAO {
         }
     }
 
+    public User getUserByID(String iduser) {
+        try {
+            String query = "SELECT * FROM user ";
+            ResultSet rs = DBHelper.query(query);
+            ArrayList<User> users = new ArrayList<>();
+            rs.next();
+                User user = new User();
+                user.setIdUser(rs.getString("iduser"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setDob(rs.getDate("dateofbirth"));
+                user.setPhoneNumber(rs.getString("phonenumber"));
+                user.setDateCreated(rs.getDate("datecreate"));
+                user.setIdRole(rs.getString("idrole"));
+
+            return user;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addUser(User user) {
         String query = "INSERT INTO post (iduser, name, email, dateofbirth, phonenumber, datecreate, idrole) VALUES (?, ?, ?, ?, ?, ?, ?)";
         DBHelper.execute(query, user.getIdUser(), user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getDateCreated(), user.getIdRole());

@@ -29,6 +29,7 @@ public class PostBO {
     public ArrayList<PostDTO> getAllPostsBySubjectID(String idSubject) {
         ArrayList<Post> posts = postDAO.getAllPostsBySubjectID(idSubject);
         ArrayList<PostDTO> postDTOs = new ArrayList<>();
+
         for (Post post : posts) {
             PostDTO postDTO = new PostDTO();
             postDTO.setIdPost(post.getIdPost());
@@ -36,6 +37,7 @@ public class PostBO {
             postDTO.setDateCreated(post.getDateCreated());
             postDTO.setIdSubject(post.getIdSubject());
             postDTO.setIdUser(post.getIdUser());
+            postDTO.setMemberName(userDAO.getUserByID(post.getIdUser()).getName());
             postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
             postDTOs.add(postDTO);
         }
