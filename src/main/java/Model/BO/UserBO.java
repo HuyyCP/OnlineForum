@@ -1,6 +1,8 @@
 package Model.BO;
 
+import Model.Bean.Account;
 import Model.Bean.User;
+import Model.DAO.AccountDAO;
 import Model.DAO.UserDAO;
 import java.util.Date;
 import java.util.ArrayList;
@@ -18,9 +20,18 @@ public class UserBO {
         return userDAO.getAllUsers();
     }
 
-    public void addUser(User user) {
-        user.setIdUser(UUID.randomUUID().toString());
+    public String addUser(User user) {
+        String id = UUID.randomUUID().toString();
+        user.setIdUser(id);
         user.setDateCreated(new Date());
+        if (userDAO.addUser(user)) {
+            return id;
+        }
+        return null;
+    }
+
+    public User getUserById(String id) {
+        return userDAO.getUserByID(id);
     }
 
     public void updateUser(User user) {
