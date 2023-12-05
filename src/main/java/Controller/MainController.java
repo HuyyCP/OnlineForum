@@ -10,7 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "MainController", value = "/MainController")
+@WebServlet(name = "MainController", urlPatterns = {"/home", "/index.jsp", "/listpost", ""})
 public class MainController extends HttpServlet {
     private String message;
 
@@ -19,6 +19,7 @@ public class MainController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println(request.getServletPath());
         doPost(request, response);
     }
 
@@ -28,7 +29,6 @@ public class MainController extends HttpServlet {
             request.setAttribute("listMainSubject", subjectBO.getAllSubjects());
             SubSubjectBO subSubjectBO = new SubSubjectBO();
             request.setAttribute("listSubSubject", subSubjectBO.getAllSubjects());
-
             changeTo("/home.jsp", request, response);
         }else{
             PostBO postBO = new PostBO();

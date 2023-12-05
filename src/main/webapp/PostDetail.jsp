@@ -14,6 +14,8 @@
 </head>
 
 <body>
+<jsp:include page="header.jsp" />
+<jsp:include page="alert.jsp" />
     <header>
     </header>
     <%
@@ -80,7 +82,6 @@
                     </div>
                     <div class="content">
                         <%=comment.getMessage()%>
-
                     </div>
                 </div>
             </div>

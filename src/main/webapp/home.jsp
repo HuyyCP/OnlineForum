@@ -25,6 +25,8 @@
     ArrayList<SubSubject> listSubSubject = (ArrayList<SubSubject>) request.getAttribute("listSubSubject");
 %>
 
+<jsp:include page="header.jsp" />
+
 <header>
     <!--NavBar Section-->
     <div class="navbar">
@@ -93,7 +95,7 @@
                     <i class="fa fa-car center"></i>
                 </div>
                 <div class="subforum-description subforum-column">
-                    <h4><a href="MainController?IDSubSubject=<%=listSubSubject.get(j).getIdSubject()%>"><%=listSubSubject.get(j).getSubjectName()%>
+                    <h4><a href="home?IDSubSubject=<%=listSubSubject.get(j).getIdSubject()%>"><%=listSubSubject.get(j).getSubjectName()%>
                     </a></h4>
                 </div>
                 <div class="subforum-stats subforum-column center">
@@ -124,9 +126,9 @@
     <span>Latest post: <b><a href="">Random post</a></b> on Dec 15 2021 By <a href="">RandomUser</a></span>.<br>
     <span>Check <a href="">the latest posts</a> .</span><br>
 </div>
-
 <footer>
     <span>&copy;  Selmi Abderrahim | All Rights Reserved</span>
 </footer>
+<jsp:include page="alert.jsp" />
 </body>
 </html>

@@ -5,12 +5,6 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<jsp:include page="header.jsp" />
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
-<jsp:include page="/MainController"></jsp:include>
-<jsp:include page="alert.jsp" />
+<%--<jsp:include page="/home"/>--%>
 </body>
 </html>

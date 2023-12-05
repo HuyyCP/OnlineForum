@@ -22,6 +22,7 @@
 </head>
 
 <body>
+<jsp:include page="header.jsp" />
 <header>
     <!--NavBar Section-->
     <div class="navbar">
@@ -128,7 +129,7 @@
     <span><i class="fa fa-lock"></i>&nbsp; Closed Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i
         class="fa fa-share-square"></i></a><br>
 </div>
-
+<jsp:include page="alert.jsp" />
 <footer>
     <span>&copy;  Selmi Abderrahim | All Rights Reserved</span>
 </footer>

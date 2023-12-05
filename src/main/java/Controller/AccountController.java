@@ -45,6 +45,9 @@ public class AccountController extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     String path = req.getServletPath();
     redirectURL = req.getParameter("redirect");
+    if(redirectURL != null && !redirectURL.isEmpty()){
+        redirectURL = redirectURL.replace(".jsp", "");
+    }
     System.out.println(redirectURL);
     if (redirectURL == null || redirectURL.isEmpty()) {
       redirectURL = "/";

@@ -56,7 +56,8 @@
             <div class="modal-body">
                 <!-- Login Form -->
                 <form action="/login" method="post">
-                    <input type="hidden" name="redirect" value="<%= request.getRequestURI() %>" />
+
+                    <input type="hidden" name="redirect" value="<%= session.getAttribute("currentUrl") %>" />
                     <div class="mb-3">
                         <label for="loginUserName" class="form-label">Email address</label>
                         <input type="text" class="form-control" id="loginUserName" name="username" required>
@@ -83,7 +84,7 @@
             <div class="modal-body">
                 <!-- Register Form -->
                 <form action="/register" method="post">
-                    <input type="hidden" name="redirect" value="<%= request.getRequestURI() %>" />
+                    <input type="hidden" name="redirect" value="<%= session.getAttribute("currentUrl") %>" />
                     <div class="mb-3">
                         <label for="userName" class="form-label">Tên người dùng</label>
                         <input type="text" class="form-control" id="userName" name="username" required>

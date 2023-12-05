@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -38,8 +39,8 @@ public class PostController extends HttpServlet {
         String idPost = path.substring(1);
         PostDetailDTO post = postBO.getPostByID(idPost);
         req.setAttribute("post", post);
+        HttpSession session = req.getSession();
+        session.setAttribute("currentUrl", req.getRequestURI());
         changeTo("/PostDetail.jsp", req, resp);
     }
-
-
 }
