@@ -7,14 +7,14 @@ import java.sql.SQLException;
 
 public class AccountDAO {
 
-    public boolean isValidAccount(String username, String password) {
+    public String isValidAccount(String username, String password) {
         try {
             String query = "SELECT * FROM account WHERE username = ? AND password = ?";
             ResultSet rs = DBHelper.query(query, username, password);
-            boolean res = false;
+            String res = null;
             if (rs != null) {
                 if(rs.next()) {
-                    res = true;
+                    res = rs.getString("iduser");
                 }
                 rs.close();
             }

@@ -49,9 +49,12 @@ public class UserDAO {
         }
     }
 
-    public void addUser(User user) {
-        String query = "INSERT INTO post (iduser, name, email, dateofbirth, phonenumber, datecreate, idrole) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        DBHelper.execute(query, user.getIdUser(), user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getDateCreated(), user.getIdRole());
+    public boolean addUser(User user) {
+        String query = "INSERT INTO user (iduser, name, email, dateofbirth, phonenumber, datecreate, idrole) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        if (DBHelper.execute(query, user.getIdUser(), user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getDateCreated(), user.getIdRole())) {
+            return true;
+        }
+        return false;
     }
 
     public void updateUser(User user) {
