@@ -70,7 +70,7 @@ h1{
 }
 
 .subforum-devider{
-    display: none;   
+    display: none;
 }
 
 
@@ -94,9 +94,15 @@ h1{
         background-image: linear-gradient(to right, rgba(190, 190, 190, 0), rgba(255, 255, 255, 0.75), rgba(190, 190, 190, 0));
     }
 
+<<<<<<< HEAD
     
 
   }
+=======
+
+
+}
+>>>>>>> 2de9e4612bdcaec33ef3137008df57fb02a29dfa
 
 /* For the tablets */
 @media screen and (min-width: 460px) and (max-width: 1024px) {
@@ -122,13 +128,21 @@ h1{
         font-size: 16px;
     }
 
+<<<<<<< HEAD
   }
+=======
+}
+>>>>>>> 2de9e4612bdcaec33ef3137008df57fb02a29dfa
 /*   Header Section    */
 
 header{
     margin-inline: 10px;
 }
+<<<<<<< HEAD
   /* Nav Bar styles */
+=======
+/* Nav Bar styles */
+>>>>>>> 2de9e4612bdcaec33ef3137008df57fb02a29dfa
 .navbar{
     display:flex;
     align-items: center;
@@ -180,10 +194,17 @@ header{
     cursor: pointer;
 }
 
+<<<<<<< HEAD
 @font-face {
     font-family:aquire;
     src:url(aquire.otf);
 }
+=======
+/*@font-face {*/
+/*    font-family:aquire;*/
+/*    src:url(aquire.otf);*/
+/*}*/
+>>>>>>> 2de9e4612bdcaec33ef3137008df57fb02a29dfa
 
 .brand{
     font-size:60px;
@@ -191,6 +212,7 @@ header{
     font-family:aquire;
 }
 
+<<<<<<< HEAD
 /*Navbar for the smartphones*/
 @media screen and (max-width: 460px){
     .navigation{
@@ -220,6 +242,37 @@ header{
 }
 
   /* Search Box styles */
+=======
+/*!*Navbar for the smartphones*!*/
+/*@media screen and (max-width: 460px){*/
+/*    .navigation{*/
+/*        max-height: auto;*/
+/*    }*/
+
+/*    .close-icon i{*/
+/*        font-size:30px;*/
+/*    }*/
+
+/*    .nav-item a{*/
+/*        float:left;*/
+/*        display:inline;*/
+/*        margin-inline: 3px;*/
+/*        font-size: 10px;*/
+/*        padding: 5px;*/
+/*    }*/
+
+
+/*    .bar-icon{*/
+/*        font-size: 30px;*/
+/*    }*/
+
+/*    .brand{*/
+/*        font-size:20px;*/
+/*    }*/
+/*}*/
+
+/* Search Box styles */
+>>>>>>> 2de9e4612bdcaec33ef3137008df57fb02a29dfa
 .search-box{
     border: solid 1px #52057b;
     margin-top: 20px;
@@ -254,7 +307,11 @@ header{
     .search-box input, .search-box button, .search-box select{
         min-width: 300px;
         margin-top: 5px;
+<<<<<<< HEAD
     }    
+=======
+    }
+>>>>>>> 2de9e4612bdcaec33ef3137008df57fb02a29dfa
 
 }
 
@@ -460,4 +517,7 @@ footer{
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2de9e4612bdcaec33ef3137008df57fb02a29dfa

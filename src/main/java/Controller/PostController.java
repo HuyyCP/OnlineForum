@@ -1,21 +1,45 @@
 package Controller;
 
-import java.io.*;
+import DTO.PostDetailDTO;
+import Model.BO.CommentBO;
+import Model.BO.PostBO;
+import Model.Bean.Comment;
+import Model.Bean.Post;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import java.io.IOException;
+import java.util.ArrayList;
 
-@WebServlet(name = "PostController", value = "/PostController")
+@WebServlet({"/post/*"})
 public class PostController extends HttpServlet {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        doPost(request, response);
+    private static final long serialVersionUID = 1L;
+    private PostBO postBO;
+    private CommentBO commentBO;
+    @Override
+    public void init() throws ServletException {
+        postBO = new PostBO();
+        commentBO = new CommentBO();
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    private void changeTo(String destination, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(destination);
+        rd.forward(req, resp);
     }
 
-    public void destroy() {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String path = req.getPathInfo();
+        String idPost = path.substring(1);
+        PostDetailDTO post = postBO.getPostByID(idPost);
+        req.setAttribute("post", post);
+        changeTo("/PostDetail.jsp", req, resp);
     }
+
+
 }

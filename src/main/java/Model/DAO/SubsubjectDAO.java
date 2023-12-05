@@ -2,12 +2,24 @@ package Model.DAO;
 
 import Helper.DBHelper;
 import Model.Bean.SubSubject;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SubsubjectDAO {
+
+    private SubSubject getSubSubject(ResultSet rs) {
+        try {
+            SubSubject subject = new SubSubject();
+            subject.setIdSubject(rs.getString("idsubject"));
+            subject.setSubjectName(rs.getString("subjectname"));
+            subject.setEnable(rs.getBoolean("status"));
+            subject.setIdParentSubject(rs.getString("idparentsubject"));
+            return subject;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public ArrayList<SubSubject> getAllSubjects() {
         try {
@@ -15,11 +27,7 @@ public class SubsubjectDAO {
             ResultSet rs = DBHelper.query(query);
             ArrayList<SubSubject> subjects = new ArrayList<>();
             while (rs.next()) {
-                SubSubject subject = new SubSubject();
-                subject.setIdSubject(rs.getString("idsubject"));
-                subject.setSubjectName(rs.getString("subjectname"));
-                subject.setIdParentSubject(rs.getString("idparentsubject"));
-                subjects.add(subject);
+                subjects.add(getSubSubject(rs));
             }
             return subjects;
         } catch (SQLException e) {
@@ -33,11 +41,7 @@ public class SubsubjectDAO {
             ResultSet rs = DBHelper.query(query, idParentSubject);
             ArrayList<SubSubject> subjects = new ArrayList<>();
             while (rs.next()) {
-                SubSubject subject = new SubSubject();
-                subject.setIdSubject(rs.getString("idsubject"));
-                subject.setSubjectName(rs.getString("subjectname"));
-                subject.setIdParentSubject(rs.getString("idparentsubject"));
-                subjects.add(subject);
+                subjects.add(getSubSubject(rs));
             }
             return subjects;
         } catch (SQLException e) {
@@ -45,47 +49,44 @@ public class SubsubjectDAO {
         }
     }
 
-    public SubSubject getSubSubject(String idsubsubject) {
+    public String getSubSubjectName(String idSubSubject) {
         try {
             String query = "SELECT * FROM subsubject WHERE idsubject = ?";
-            ResultSet rs = DBHelper.query(query, idsubsubject);
-            rs.next();
-            SubSubject subject = new SubSubject();
-            subject.setIdSubject(rs.getString("idsubject"));
-            subject.setSubjectName(rs.getString("subjectname"));
-            subject.setIdParentSubject(rs.getString("idparentsubject"));
-
-            return subject;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void addSubject(SubSubject subject) {
-        String query = "INSERT INTO subsubject (idsubject, namesubject, idparentsubject) VALUES (?, ?, ?)";
-        DBHelper.execute(query, subject.getIdSubject(), subject.getSubjectName(), subject.getIdParentSubject());
-    }
-
-    public void deleteSubject(String idSubject) {
-        String query = "DELETE FROM subsubject WHERE idsubject = ?";
-        DBHelper.execute(query, idSubject);
-    }
-
-    public void deleteSubSubject(String idParentSubject) {
-        String query = "DELETE FROM subsubject WHERE idparentsubject = ?";
-        DBHelper.execute(query, idParentSubject);
-    }
-
-    public boolean isEnable(String idSubject) {
-        try {
-            String query = "SELECT status FROM subsubject WHERE idsubject = ?";
-            ResultSet rs = DBHelper.query(query, idSubject);
-            if (rs.next()) {
-                return rs.getBoolean("status");
+            ResultSet rs = DBHelper.query(query, idSubSubject);
+            if(rs.next()) {
+                return getSubSubject(rs).getSubjectName();
             }
-            return false;
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+  public void addSubject(SubSubject subject) {
+    String query = "INSERT INTO subsubject (idsubject, subjectname, idparentsubject) VALUES (?, ?, ?)";
+    DBHelper.execute(query, subject.getIdSubject(), subject.getSubjectName(), subject.getIdParentSubject());
+  }
+
+  public void deleteSubject(String idSubject) {
+    String query = "DELETE FROM subsubject WHERE idsubject = ?";
+    DBHelper.execute(query, idSubject);
+  }
+
+  public void deleteSubSubject(String idParentSubject) {
+    String query = "DELETE FROM subsubject WHERE idparentsubject = ?";
+    DBHelper.execute(query, idParentSubject);
+  }
+
+  public boolean isEnable(String idSubject) {
+    try {
+      String query = "SELECT status FROM subsubject WHERE idsubject = ?";
+      ResultSet rs = DBHelper.query(query, idSubject);
+      if (rs.next()) {
+        return rs.getBoolean("status");
+      }
+      return false;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
