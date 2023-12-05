@@ -30,9 +30,33 @@ public class UserDAO {
         }
     }
 
-    public void addUser(User user) {
-        String query = "INSERT INTO post (iduser, name, email, dateofbirth, phonenumber, datecreate, idrole) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        DBHelper.execute(query, user.getIdUser(), user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getDateCreated(), user.getIdRole());
+    public User getUserById(String id)
+    {
+        try {
+            String query = "SELECT * FROM user WHERE iduser = ?";
+            ResultSet rs = DBHelper.query(query, id);
+            User user = new User();
+            if(rs.next()) {
+                user.setIdUser(rs.getString("iduser"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setDob(rs.getDate("dateofbirth"));
+                user.setPhoneNumber(rs.getString("phonenumber"));
+                user.setDateCreated(rs.getDate("datecreate"));
+                user.setIdRole(rs.getString("idrole"));
+            }
+            return user;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean addUser(User user) {
+        String query = "INSERT INTO user (iduser, name, email, dateofbirth, phonenumber, datecreate, idrole) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        if (DBHelper.execute(query, user.getIdUser(), user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getDateCreated(), user.getIdRole())) {
+            return true;
+        }
+        return false;
     }
 
     public void updateUser(User user) {

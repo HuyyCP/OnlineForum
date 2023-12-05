@@ -17,7 +17,7 @@ public class AccountBO {
         accountDAO = new AccountDAO();
     }
 
-    public boolean isValidAccount(String username, String password) {
+    public String isValidAccount(String username, String password) {
         return accountDAO.isValidAccount(username, password);
     }
 
