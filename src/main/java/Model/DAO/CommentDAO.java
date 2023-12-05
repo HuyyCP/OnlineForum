@@ -7,19 +7,27 @@ import java.util.ArrayList;
 
 public class CommentDAO {
 
+    private Comment getComment(ResultSet rs) {
+        try {
+            Comment comment = new Comment();
+            comment.setIdcomment(rs.getString("idcomment"));
+            comment.setMessage(rs.getString("message"));
+            comment.setDateComment(rs.getDate("datecomment"));
+            comment.setIdPost(rs.getString("idpost"));
+            comment.setIdUser(rs.getString("iduser"));
+            return comment;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ArrayList<Comment> getAllCommentsByPostID(String idPost) {
         try {
-            String query = "SELECT * FROM comment WHERE idpost = ?";
+            String query = "SELECT * FROM comment WHERE idpost = ? ORDER BY datecomment";
             ResultSet rs = DBHelper.query(query, idPost);
             ArrayList<Comment> comments = new ArrayList<>();
             while(rs.next()) {
-                Comment comment = new Comment();
-                comment.setIdcomment(rs.getString("idcomment"));
-                comment.setMessage(rs.getString("message"));
-                comment.setDateComment(rs.getDate("datecomment"));
-                comment.setIdPost(rs.getString("idpost"));
-                comment.setIdUser(rs.getString("iduser"));
-                comments.add(comment);
+                comments.add(getComment(rs));
             }
             return comments;
         } catch (SQLException e) {
@@ -44,13 +52,7 @@ public class CommentDAO {
             ResultSet rs = DBHelper.query(query, idUser);
             ArrayList<Comment> comments = new ArrayList<>();
             while(rs.next()) {
-                Comment comment = new Comment();
-                comment.setIdcomment(rs.getString("idcomment"));
-                comment.setMessage(rs.getString("message"));
-                comment.setDateComment(rs.getDate("datecomment"));
-                comment.setIdPost(rs.getString("idpost"));
-                comment.setIdUser(rs.getString("iduser"));
-                comments.add(comment);
+                comments.add(getComment(rs));
             }
             return comments;
         } catch (SQLException e) {

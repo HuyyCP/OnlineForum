@@ -19,6 +19,10 @@ public class SubSubjectBO {
     return subsubjectDAO.getAllSubjects();
   }
 
+  public SubSubject getSubject(String idSubSubject){
+    return subsubjectDAO.getSubSubject(idSubSubject);
+  }
+
   public void addSubject(SubSubject subSubject) {
     subSubject.setIdSubject(UUID.randomUUID().toString());
     subsubjectDAO.addSubject(subSubject);

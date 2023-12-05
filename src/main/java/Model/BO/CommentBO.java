@@ -1,7 +1,9 @@
 package Model.BO;
 
+import DTO.CommentDTO;
 import Model.Bean.Comment;
 import Model.DAO.CommentDAO;
+import Model.DAO.UserDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,13 +13,27 @@ import java.util.UUID;
 public class CommentBO {
 
     private CommentDAO commentDAO;
+    private UserDAO userDAO;
 
     public CommentBO() {
         commentDAO = new CommentDAO();
+        userDAO = new UserDAO();
     }
 
-    public ArrayList<Comment> getAllCommentsByPostID(String idPost) {
-        return commentDAO.getAllCommentsByPostID(idPost);
+    public ArrayList<CommentDTO> getAllCommentsByPostID(String idPost) {
+        ArrayList<Comment> comments = commentDAO.getAllCommentsByPostID(idPost);
+        ArrayList<CommentDTO> commentDTOS = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentDTO commentDTO = new CommentDTO();
+            commentDTO.setIdcomment(comment.getIdcomment());
+            commentDTO.setMessage(comment.getMessage());
+            commentDTO.setDateComment(comment.getDateComment());
+            commentDTO.setIdPost(comment.getIdPost());
+            commentDTO.setIdUser(comment.getIdUser());
+            commentDTO.setUser(userDAO.getUserByID(comment.getIdUser()));
+            commentDTOS.add(commentDTO);
+        }
+        return commentDTOS;
     }
 
     public void addComment(Comment comment) {
