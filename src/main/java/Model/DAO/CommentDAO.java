@@ -23,7 +23,7 @@ public class CommentDAO {
 
     public ArrayList<Comment> getAllCommentsByPostID(String idPost) {
         try {
-            String query = "SELECT * FROM comment WHERE idpost = ?";
+            String query = "SELECT * FROM comment WHERE idpost = ? ORDER BY datecomment";
             ResultSet rs = DBHelper.query(query, idPost);
             ArrayList<Comment> comments = new ArrayList<>();
             while(rs.next()) {
