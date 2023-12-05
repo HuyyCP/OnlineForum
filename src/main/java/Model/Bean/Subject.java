@@ -3,7 +3,6 @@ package Model.Bean;
 public class Subject {
     private String idSubject;
     private String subjectName;
-
     private boolean enable;
 
     public boolean isEnable() {

@@ -7,8 +7,7 @@ public class Post {
     private String title;
     private Date dateCreated;
     private String idUser;
-    private String idSubject;
-
+    private String idSubSubject;
 
     public String getIdPost() {
         return idPost;
@@ -42,11 +41,12 @@ public class Post {
         this.idUser = idUser;
     }
 
-    public String getIdSubject() {
-        return idSubject;
+    public String getIdSubSubject() {
+        return idSubSubject;
     }
 
-    public void setIdSubject(String idSubject) {
-        this.idSubject = idSubject;
+    public void setIdSubSubject(String idSubSubject) {
+        this.idSubSubject = idSubSubject;
     }
+
 }
