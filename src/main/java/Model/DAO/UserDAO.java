@@ -8,23 +8,42 @@ import java.util.ArrayList;
 
 public class UserDAO {
 
+    private User getUser(ResultSet rs) {
+        try {
+            User user = new User();
+            user.setIdUser(rs.getString("iduser"));
+            user.setName(rs.getString("name"));
+            user.setEmail(rs.getString("email"));
+            user.setDob(rs.getDate("dateofbirth"));
+            user.setPhoneNumber(rs.getString("phonenumber"));
+            user.setDateCreated(rs.getDate("datecreate"));
+            user.setIdRole(rs.getString("idrole"));
+            return user;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ArrayList<User> getAllUsers() {
         try {
             String query = "SELECT * FROM user ";
             ResultSet rs = DBHelper.query(query);
             ArrayList<User> users = new ArrayList<>();
             while(rs.next()) {
-                User user = new User();
-                user.setIdUser(rs.getString("iduser"));
-                user.setName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setDob(rs.getDate("dateofbirth"));
-                user.setPhoneNumber(rs.getString("phonenumber"));
-                user.setDateCreated(rs.getDate("datecreate"));
-                user.setIdRole(rs.getString("idrole"));
-                users.add(user);
+                users.add(getUser(rs));
             }
             return users;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public User getUserByID(String idUser) {
+        try {
+            String query = "SELECT * FROM user where iduser = ?";
+            ResultSet rs = DBHelper.query(query, idUser);
+            rs.next();
+            return getUser(rs);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

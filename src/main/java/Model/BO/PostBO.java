@@ -1,12 +1,12 @@
 package Model.BO;
 
 import DTO.PostDTO;
+import DTO.PostDetailDTO;
+import Model.Bean.Comment;
 import Model.Bean.Post;
-import Model.DAO.SubsubjectDAO;
-import Model.DAO.UserDAO;
-import Model.DAO.CommentDAO;
-import Model.DAO.PostDAO;
+import Model.DAO.*;
 
+import javax.security.auth.Subject;
 import java.sql.*;
 import java.util.Date;
 import java.util.ArrayList;
@@ -17,13 +17,17 @@ public class PostBO {
     private PostDAO postDAO;
     private CommentDAO commentDAO;
     private SubsubjectDAO subsubjectDAO;
+    private SubjectDAO subjectDAO;
     private UserDAO userDAO;
+    private CommentBO commentBO;
 
     public PostBO() {
         postDAO = new PostDAO();
         commentDAO = new CommentDAO();
         userDAO = new UserDAO();
+        subjectDAO = new SubjectDAO();
         subsubjectDAO = new SubsubjectDAO();
+        commentBO = new CommentBO();
     }
 
     public ArrayList<PostDTO> getAllPostsBySubjectID(String idSubject) {
@@ -34,12 +38,27 @@ public class PostBO {
             postDTO.setIdPost(post.getIdPost());
             postDTO.setTitle(post.getTitle());
             postDTO.setDateCreated(post.getDateCreated());
-            postDTO.setIdSubject(post.getIdSubject());
+            postDTO.setIdSubSubject(post.getIdSubSubject());
             postDTO.setIdUser(post.getIdUser());
             postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
             postDTOs.add(postDTO);
         }
         return postDTOs;
+    }
+
+    public PostDetailDTO getPostByID(String idPost) {
+        Post post = postDAO.getPostByID(idPost);
+        PostDetailDTO postDetailDTO = new PostDetailDTO();
+        postDetailDTO.setIdPost(post.getIdPost());
+        postDetailDTO.setTitle(post.getTitle());
+        postDetailDTO.setDateCreated(post.getDateCreated());
+        postDetailDTO.setIdSubSubject(post.getIdSubSubject());
+        postDetailDTO.setIdUser(post.getIdUser());
+        postDetailDTO.setSubjectName(subjectDAO.getSubjectByID(subsubjectDAO.getSubjectID(post.getIdSubSubject())).getSubjectName());
+        postDetailDTO.setSubsubjectName(subsubjectDAO.getSubSubjectName(post.getIdSubSubject()));
+        postDetailDTO.setIdSubject(subjectDAO.getSubjectByID(subsubjectDAO.getSubjectID(post.getIdSubSubject())).getIdSubject());
+        postDetailDTO.setCommentDTOs(commentBO.getAllCommentsByPostID(post.getIdPost()));
+        return postDetailDTO;
     }
 
     public void addPost(Post post) {
