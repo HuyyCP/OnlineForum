@@ -95,7 +95,7 @@
                     <i class="fa fa-car center"></i>
                 </div>
                 <div class="subforum-description subforum-column">
-                    <h4><a href="home?IDSubSubject=<%=listSubSubject.get(j).getIdSubject()%>"><%=listSubSubject.get(j).getSubjectName()%>
+                    <h4><a href="/subject/<%=listSubSubject.get(j).getIdSubject()%>/1"><%=listSubSubject.get(j).getSubjectName()%>
                     </a></h4>
                 </div>
                 <div class="subforum-stats subforum-column center">

@@ -90,7 +90,7 @@
         <div class="table-row">
             <div class="status"><i class="fa fa-fire"></i></div>
             <div class="subjects">
-                <a href="post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
+                <a href="../post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
                 <br>
                 <span>Started by <b><a href=""><%=listPost.get(i).getMemberName()%></a></b> .</span>
             </div>
@@ -111,8 +111,18 @@
         <!--ends here-->
     </div>
     <!--Pagination starts-->
+    <%
+        int numPage = (int) request.getAttribute("numPages");
+    %>
     <div class="pagination">
-        pages: <a href="">1</a><a href="">2</a><a href="">3</a>
+        pages:
+        <%
+            for (int i = 1; i <= numPage; i++) {
+        %>
+            <a href="/subject/<%=subject.getIdSubject()%>/<%=i%>"><%=i%></a>
+        <%
+            }
+        %>
     </div>
     <!--pagination ends-->
 </div>

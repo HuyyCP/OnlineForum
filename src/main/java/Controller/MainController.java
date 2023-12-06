@@ -32,7 +32,6 @@ public class MainController extends HttpServlet {
             changeTo("/home.jsp", request, response);
         }else{
             PostBO postBO = new PostBO();
-
             request.setAttribute("listPost", postBO.getAllPostsBySubjectID(request.getParameter("IDSubSubject")));
             SubSubjectBO subSubjectBO = new SubSubjectBO();
             request.setAttribute("subSubject", subSubjectBO.getSubject(request.getParameter("IDSubSubject")));
