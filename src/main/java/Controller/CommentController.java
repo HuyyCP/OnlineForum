@@ -28,12 +28,15 @@ public class CommentController extends HttpServlet {
         switch (path) {
             case "/comment/create": {
                 addComment(req, resp);
+                break;
             }
             case "/comment/update": {
                 updateComment(req, resp);
+                break;
             }
             case "/comment/delete": {
                 deleteComment(req, resp);
+                break;
             }
         }
 

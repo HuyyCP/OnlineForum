@@ -75,7 +75,7 @@ public class PostBO {
         return  postDTOsPaging;
     }
 
-    public PostDetailDTO getPostByID(String idPost) {
+    public PostDetailDTO getPostByID(String idPost, String idUser) {
         Post post = postDAO.getPostByID(idPost);
         PostDetailDTO postDetailDTO = new PostDetailDTO();
         postDetailDTO.setIdPost(post.getIdPost());
@@ -87,6 +87,7 @@ public class PostBO {
         postDetailDTO.setSubsubjectName(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getSubjectName());
         postDetailDTO.setIdSubject(subjectDAO.getSubjectByID(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getIdParentSubject()).getIdSubject());
         postDetailDTO.setCommentDTOs(commentBO.getAllCommentsByPostID(post.getIdPost()));
+        if(idUser != null) postDetailDTO.setUserCommentDTOs(commentBO.getAllCommentsByUserID(idUser));
         return postDetailDTO;
     }
 
