@@ -90,7 +90,7 @@
         <div class="table-row">
             <div class="status"><i class="fa fa-fire"></i></div>
             <div class="subjects">
-                <a href="post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
+                <a id="idpost" href="post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
                 <br>
                 <span>Started by <b><a href=""><%=listPost.get(i).getMemberName()%></a></b> .</span>
             </div>
@@ -104,6 +104,7 @@
             </div>
         </div>
 
+
         <%
             }
         %>
@@ -116,6 +117,7 @@
     </div>
     <!--pagination ends-->
 </div>
+
 
 <div class="note">
     <span><i class="fa fa-frown-o"></i>&nbsp; 0 Engagement Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i
@@ -133,6 +135,6 @@
 <footer>
     <span>&copy;  Selmi Abderrahim | All Rights Reserved</span>
 </footer>
-<script src="main.js"></script>
+
 </body>
 </html>

@@ -10,6 +10,15 @@ public class PostDetailDTO extends Post {
     String subjectName;
     String subsubjectName;
     ArrayList<CommentDTO> commentDTOs;
+    ArrayList<CommentDTO> userCommentDTOs;
+
+    public ArrayList<CommentDTO> getUserCommentDTOs() {
+        return userCommentDTOs;
+    }
+
+    public void setUserCommentDTOs(ArrayList<CommentDTO> userCommentDTOs) {
+        this.userCommentDTOs = userCommentDTOs;
+    }
 
     public String getIdSubject() {
         return idSubject;

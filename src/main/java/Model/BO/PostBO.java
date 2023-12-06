@@ -2,15 +2,13 @@ package Model.BO;
 
 import DTO.PostDTO;
 import DTO.PostDetailDTO;
-import Model.Bean.Comment;
 import Model.Bean.Post;
 import Model.DAO.*;
-
-import javax.security.auth.Subject;
-import java.sql.*;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import static Helper.HandleString.changeTitleToURL;
 
 public class PostBO {
 
@@ -38,6 +36,7 @@ public class PostBO {
             PostDTO postDTO = new PostDTO();
             postDTO.setIdPost(post.getIdPost());
             postDTO.setTitle(post.getTitle());
+            postDTO.setUrlPath(changeTitleToURL(post.getTitle()));
             postDTO.setDateCreated(post.getDateCreated());
             postDTO.setIdSubSubject(post.getIdSubSubject());
             postDTO.setIdUser(post.getIdUser());
@@ -48,7 +47,7 @@ public class PostBO {
         return postDTOs;
     }
 
-    public PostDetailDTO getPostByID(String idPost) {
+    public PostDetailDTO getPostByID(String idPost, String idUser) {
         Post post = postDAO.getPostByID(idPost);
         PostDetailDTO postDetailDTO = new PostDetailDTO();
         postDetailDTO.setIdPost(post.getIdPost());
@@ -60,6 +59,7 @@ public class PostBO {
         postDetailDTO.setSubsubjectName(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getSubjectName());
         postDetailDTO.setIdSubject(subjectDAO.getSubjectByID(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getIdParentSubject()).getIdSubject());
         postDetailDTO.setCommentDTOs(commentBO.getAllCommentsByPostID(post.getIdPost()));
+        if(idUser != null) postDetailDTO.setUserCommentDTOs(commentBO.getAllCommentsByUserID(idUser));
         return postDetailDTO;
     }
 
@@ -77,4 +77,5 @@ public class PostBO {
         commentDAO.deleteCommentByPostID(idPost);
         postDAO.deletePost(idPost);
     }
+
 }

@@ -1,5 +1,7 @@
 <%@ page import="DTO.PostDetailDTO" %>
 <%@ page import="DTO.CommentDTO" %>
+<%@ page import="Model.Bean.User" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,20 +23,7 @@
     <%
         PostDetailDTO post = (PostDetailDTO) request.getAttribute("post");
     %>
-    <!--NavBar Section-->
-    <div class="navbar">
-        <nav class="navigation hide" id="navigation">
-            <span class="close-icon" id="close-icon" onclick="showIconBar()"><i class="fa fa-close"></i></span>
-            <ul class="nav-list">
-                <li class="nav-item"><a href="forums.html">Forums</a></li>
-                <li class="nav-item"><a href="posts.html">Posts</a></li>
-                <li class="nav-item"><a href="detail.html">Detail</a></li>
-            </ul>
-        </nav>
-        <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
-        <div class="brand">My Forum</div>
-    </div>
-    <!--SearchBox Section-->
+
     <div class="search-box">
         <div>
             <select name="" id="selectsubject">
@@ -49,7 +38,7 @@
     <div class="container">
         <!--Navigation-->
         <div class="navigate">
-            <span><a href="">MyForum - Forums</a> >> <a href=""><%=post.getSubsubjectName()%></a> >> <a href="<%=post.getIdPost()%>"><%=post.getTitle()%></a></span>
+            <span><a href="/">MyForum - Forums</a> >> <a href=""><%=post.getSubsubjectName()%></a> >> <a href="<%=post.getIdPost()%>"><%=post.getTitle()%></a></span>
         </div>
 
         <!--Topic Section-->
@@ -61,13 +50,36 @@
             </div>
         </div>
 
-        <!--Comment Area-->
-        <div class="comment-area hide" id="comment-area">
-            <textarea name="comment" id="commentarea" placeholder="comment here ... "></textarea>
-            <input type="submit" value="submit">
-        </div>
+        <%
+            User user = (User) session.getAttribute("user");
+            if(user != null) {
+        %>
+                <div name="usercomment" class="comments-container">
+        <%
+                for(CommentDTO comment : post.getUserCommentDTOs()) {
+        %>
+                    <div class="body">
+                        <div class="authors">
+                            <div class="username"><a href=""><%=comment.getUser().getName()%></a></div>
+                        </div>
+                        <div class="content"><%=comment.getMessage()%></div>
+                        <form method="POST" action="/comment/delete">
+                            <input type="hidden" value="<%=comment.getIdcomment()%>" name="idComment">
+                            <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">
+                            <button type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+        <%
+                }
+        %>
+                </div>
+        <%
+            }
+        %>
 
-        <!--Comments Section-->
+
+
+
         <%
             for(CommentDTO comment : post.getCommentDTOs()) {
         %>
@@ -75,14 +87,17 @@
                 <div class="body">
                     <div class="authors">
                         <div class="username"><a href=""><%=comment.getUser().getName()%></a></div>
-                        <div>Role</div>
-                        <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">
-                        <div>Posts: <u>455</u></div>
-                        <div>Points: <u>4586</u></div>
+<%--                        <div>Role</div>--%>
+<%--                        <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">--%>
+<%--                        <div>Posts: <u>455</u></div>--%>
+<%--                        <div>Points: <u>4586</u></div>--%>
                     </div>
-                    <div class="content">
-                        <%=comment.getMessage()%>
-                    </div>
+                    <div class="content"><%=comment.getMessage()%></div>
+<%--                    <form method="DELETE" action="/comment/delete">--%>
+<%--                        <input type="hidden" value="<%=comment.getIdcomment()%>" name="idComment">--%>
+<%--                        <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">--%>
+<%--                        <button type="submit" value="" name="submitBtn"><i class="fa fa-trash-o" aria-hidden="true"></i></button>--%>
+<%--                    </form>--%>
                 </div>
             </div>
         <%
@@ -90,14 +105,29 @@
         %>
 
         <!--Reply Area-->
-        <div class="comment-area hide" id="reply-area">
+        <div class="comment-area" id="reply-area" hidden>
             <textarea name="reply" id="replyarea" placeholder="reply here ... "></textarea>
             <input type="submit" value="submit">
         </div>
 
+        <%
 
+            if(user != null) {
+        %>
+                <form method="POST" action="/comment/create">
+                    <textarea name="message" placeholder="Comment here"></textarea>
+                    <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">
+                    <input type="hidden" value="<%=user.getIdUser()%>" name="idUser">
+                    <button type="submit" value="" name="submitBtn">Bình luận</button>
+                </form>
+        <%
+            } else {
+        %>
+                <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập để bình luận</button>
 
-        <button><a href="../login.jsp">Login to comment</a></button>
+        <%
+            }
+        %>
 
     </div>
     <footer>
