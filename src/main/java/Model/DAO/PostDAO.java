@@ -22,7 +22,7 @@ public class PostDAO {
     }
     public ArrayList<Post> getAllPostsBySubjectID(String idSubject) {
         try {
-            String query = "SELECT * FROM post WHERE idsubject = ?";
+            String query = "SELECT * FROM post WHERE idsubject = ? ORDER BY datecreate DESC";
             ResultSet rs = DBHelper.query(query, idSubject);
             ArrayList<Post> posts = new ArrayList<>();
             while(rs.next()) {
@@ -58,5 +58,22 @@ public class PostDAO {
     public void deletePostBySubjectID(String idSubject) {
         String query = "DELETE FROM post WHERE idsubject = ?";
         DBHelper.execute(query, idSubject);
+    }
+
+    public Integer getNumPost(String idSubSubject) {
+        try {
+            String query = "SELECT count(*) FROM post WHERE idsubject = ?";
+            ResultSet rs = DBHelper.query(query, idSubSubject);
+
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
     }
 }

@@ -2,13 +2,15 @@ package Model.BO;
 
 import DTO.PostDTO;
 import DTO.PostDetailDTO;
+import Model.Bean.Comment;
 import Model.Bean.Post;
 import Model.DAO.*;
+
+import javax.security.auth.Subject;
+import java.sql.*;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.UUID;
-
-import static Helper.HandleString.changeTitleToURL;
 
 public class PostBO {
 
@@ -36,7 +38,6 @@ public class PostBO {
             PostDTO postDTO = new PostDTO();
             postDTO.setIdPost(post.getIdPost());
             postDTO.setTitle(post.getTitle());
-            postDTO.setUrlPath(changeTitleToURL(post.getTitle()));
             postDTO.setDateCreated(post.getDateCreated());
             postDTO.setIdSubSubject(post.getIdSubSubject());
             postDTO.setIdUser(post.getIdUser());
@@ -47,7 +48,34 @@ public class PostBO {
         return postDTOs;
     }
 
-    public PostDetailDTO getPostByID(String idPost, String idUser) {
+    public ArrayList<PostDTO> getPostsPaging(String idSubject, Integer maxPage, Integer numPage) {
+        ArrayList<Post> posts = postDAO.getAllPostsBySubjectID(idSubject);
+        ArrayList<PostDTO> postDTOs = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostDTO postDTO = new PostDTO();
+            postDTO.setIdPost(post.getIdPost());
+            postDTO.setTitle(post.getTitle());
+            postDTO.setDateCreated(post.getDateCreated());
+            postDTO.setIdSubSubject(post.getIdSubSubject());
+            postDTO.setIdUser(post.getIdUser());
+            postDTO.setMemberName(userDAO.getUserByID(post.getIdUser()).getName());
+            postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
+            postDTOs.add(postDTO);
+        }
+
+        ArrayList<PostDTO> postDTOsPaging = new ArrayList<>();
+
+        for (int i = (numPage - 1) * maxPage; i < postDTOs.size() && i < numPage * maxPage; i++) {
+            postDTOsPaging.add(postDTOs.get(i));
+        }
+
+        System.out.println(postDTOsPaging.size());
+
+        return  postDTOsPaging;
+    }
+
+    public PostDetailDTO getPostByID(String idPost) {
         Post post = postDAO.getPostByID(idPost);
         PostDetailDTO postDetailDTO = new PostDetailDTO();
         postDetailDTO.setIdPost(post.getIdPost());
@@ -59,7 +87,6 @@ public class PostBO {
         postDetailDTO.setSubsubjectName(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getSubjectName());
         postDetailDTO.setIdSubject(subjectDAO.getSubjectByID(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getIdParentSubject()).getIdSubject());
         postDetailDTO.setCommentDTOs(commentBO.getAllCommentsByPostID(post.getIdPost()));
-        if(idUser != null) postDetailDTO.setUserCommentDTOs(commentBO.getAllCommentsByUserID(idUser));
         return postDetailDTO;
     }
 
@@ -78,4 +105,7 @@ public class PostBO {
         postDAO.deletePost(idPost);
     }
 
+    public Integer getNumPost(String idSubSubject) {
+        return postDAO.getNumPost(idSubSubject);
+    }
 }

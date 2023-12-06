@@ -90,7 +90,7 @@
         <div class="table-row">
             <div class="status"><i class="fa fa-fire"></i></div>
             <div class="subjects">
-                <a id="idpost" href="post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
+                <a id="idpost" href="../post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
                 <br>
                 <span>Started by <b><a href=""><%=listPost.get(i).getMemberName()%></a></b> .</span>
             </div>
@@ -104,7 +104,6 @@
             </div>
         </div>
 
-
         <%
             }
         %>
@@ -112,12 +111,21 @@
         <!--ends here-->
     </div>
     <!--Pagination starts-->
+    <%
+        int numPage = (int) request.getAttribute("numPages");
+    %>
     <div class="pagination">
-        pages: <a href="">1</a><a href="">2</a><a href="">3</a>
+        pages:
+        <%
+            for (int i = 1; i <= numPage; i++) {
+        %>
+            <a href="/subject/<%=subject.getIdSubject()%>/<%=i%>"><%=i%></a>
+        <%
+            }
+        %>
     </div>
     <!--pagination ends-->
 </div>
-
 
 <div class="note">
     <span><i class="fa fa-frown-o"></i>&nbsp; 0 Engagement Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i
@@ -135,6 +143,6 @@
 <footer>
     <span>&copy;  Selmi Abderrahim | All Rights Reserved</span>
 </footer>
-
+<script src="main.js"></script>
 </body>
 </html>
