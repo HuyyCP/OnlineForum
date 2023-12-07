@@ -1,5 +1,6 @@
 package Controller;
 
+import DTO.CommentDTO;
 import DTO.PostDetailDTO;
 import Model.BO.CommentBO;
 import Model.BO.PostBO;
@@ -23,9 +24,11 @@ public class PostController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private PostBO postBO;
+    private CommentBO commentBO;
     @Override
     public void init() throws ServletException {
         postBO = new PostBO();
+        commentBO = new CommentBO();
     }
 
     private void changeTo(String destination, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,13 +41,12 @@ public class PostController extends HttpServlet {
         String path = req.getPathInfo();
         String idPost = path.substring(path.indexOf("/") + 1);
         User user = ((User) req.getSession().getAttribute("user"));
-        PostDetailDTO post;
-        if(user != null) {
-            post = postBO.getPostByID(idPost, user.getIdUser());
-        } else {
-            post = postBO.getPostByID(idPost, null);
-        }
+        PostDetailDTO post = postBO.getPostByID(idPost);
         req.setAttribute("post", post);
+        if(user != null) {
+            ArrayList<CommentDTO> usercomments = commentBO.getAllCommentsByUserID(user.getIdUser());
+            req.setAttribute("usercomments", usercomments);
+        }
         HttpSession session = req.getSession();
         session.setAttribute("currentUrl", req.getRequestURI());
         changeTo("/PostDetail.jsp", req, resp);

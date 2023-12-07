@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet({"/comment/create",
-            "/comment/update",
             "/comment/delete"})
 public class CommentController extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -28,10 +27,6 @@ public class CommentController extends HttpServlet {
         switch (path) {
             case "/comment/create": {
                 addComment(req, resp);
-                break;
-            }
-            case "/comment/update": {
-                updateComment(req, resp);
                 break;
             }
             case "/comment/delete": {
@@ -52,10 +47,6 @@ public class CommentController extends HttpServlet {
         comment.setIdUser(idUser);
         commentBO.addComment(comment);
         resp.sendRedirect("/post/" + idPost);
-    }
-
-    private void updateComment(HttpServletRequest req, HttpServletResponse resp) {
-
     }
 
     private void deleteComment(HttpServletRequest req, HttpServletResponse resp) throws IOException {

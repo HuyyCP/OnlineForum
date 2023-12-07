@@ -20,8 +20,6 @@ public class CommentBO {
         userDAO = new UserDAO();
     }
 
-
-
     public ArrayList<CommentDTO> getAllCommentsByPostID(String idPost) {
         ArrayList<Comment> comments = commentDAO.getAllCommentsByPostID(idPost);
         ArrayList<CommentDTO> commentDTOS = new ArrayList<>();

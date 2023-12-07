@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/7d8d09n9dap8sawy56988twh75m0v9ld337u9abi70mpc3f3/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>
@@ -22,6 +23,7 @@
     </header>
     <%
         PostDetailDTO post = (PostDetailDTO) request.getAttribute("post");
+        ArrayList<CommentDTO> usercomments = (ArrayList<CommentDTO>) request.getAttribute("usercomments");
     %>
 
     <div class="search-box">
@@ -38,7 +40,7 @@
     <div class="container">
         <!--Navigation-->
         <div class="navigate">
-            <span><a href="/">MyForum - Forums</a> >> <a href=""><%=post.getSubsubjectName()%></a> >> <a href="<%=post.getIdPost()%>"><%=post.getTitle()%></a></span>
+            <span><a href="/">MyForum - Forums</a> >> <a href="/subject/<%=post.getIdSubSubject()%>/1"><%=post.getSubsubjectName()%></a> >> <a href="/post/<%=post.getIdPost()%>"><%=post.getTitle()%></a></span>
         </div>
 
         <!--Topic Section-->
@@ -56,7 +58,7 @@
         %>
                 <div name="usercomment" class="comments-container">
         <%
-                for(CommentDTO comment : post.getUserCommentDTOs()) {
+                for(CommentDTO comment : usercomments) {
         %>
                     <div class="body">
                         <div class="authors">
@@ -78,8 +80,6 @@
         %>
 
 
-
-
         <%
             for(CommentDTO comment : post.getCommentDTOs()) {
         %>
@@ -93,29 +93,33 @@
 <%--                        <div>Points: <u>4586</u></div>--%>
                     </div>
                     <div class="content"><%=comment.getMessage()%></div>
-<%--                    <form method="DELETE" action="/comment/delete">--%>
-<%--                        <input type="hidden" value="<%=comment.getIdcomment()%>" name="idComment">--%>
-<%--                        <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">--%>
-<%--                        <button type="submit" value="" name="submitBtn"><i class="fa fa-trash-o" aria-hidden="true"></i></button>--%>
-<%--                    </form>--%>
                 </div>
             </div>
         <%
             }
         %>
 
-        <!--Reply Area-->
-        <div class="comment-area" id="reply-area" hidden>
-            <textarea name="reply" id="replyarea" placeholder="reply here ... "></textarea>
-            <input type="submit" value="submit">
-        </div>
 
         <%
 
             if(user != null) {
         %>
                 <form method="POST" action="/comment/create">
-                    <textarea name="message" placeholder="Comment here"></textarea>
+                    <textarea name="message" id="message" placeholder="Comment here"></textarea>
+                    <script>
+                        tinymce.init({
+                            selector: 'textarea#message',
+                            plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+                            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                            tinycomments_mode: 'embedded',
+                            tinycomments_author: 'Author name',
+                            mergetags_list: [
+                                { value: 'First.Name', title: 'First Name' },
+                                { value: 'Email', title: 'Email' },
+                            ],
+                            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+                        });
+                    </script>
                     <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">
                     <input type="hidden" value="<%=user.getIdUser()%>" name="idUser">
                     <button type="submit" value="" name="submitBtn">Bình luận</button>

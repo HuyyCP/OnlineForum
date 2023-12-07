@@ -90,7 +90,7 @@
         <div class="table-row">
             <div class="status"><i class="fa fa-fire"></i></div>
             <div class="subjects">
-                <a id="idpost" href="../../post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
+                <a id="idpost" href="/post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
                 <br>
                 <span>Started by <b><a href=""><%=listPost.get(i).getMemberName()%></a></b> .</span>
             </div>
