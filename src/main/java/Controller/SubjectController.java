@@ -72,7 +72,7 @@ public class SubjectController extends HttpServlet {
 
         PostBO postBO = new PostBO();
         req.setAttribute("listPost", postBO.getPostsPaging(IDSubSubject, 10, index));
-        req.setAttribute("numPages", (int)Math.ceil((double) postBO.getNumPost(IDSubSubject) / 10));
+        req.setAttribute("numPages", (int)Math.ceil(((double)postBO.getNumPost(IDSubSubject)) / 10));
         SubSubjectBO subSubjectBO = new SubSubjectBO();
         req.setAttribute("subSubject", subSubjectBO.getSubject(IDSubSubject));
         changeTo("/listpost.jsp", req, resp);

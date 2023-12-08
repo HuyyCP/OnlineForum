@@ -11,7 +11,9 @@
 
 <%
     boolean isLogin = false;
+    User userLogin = null;
     if (session.getAttribute("user") != null) {
+        userLogin = (User)session.getAttribute("user");
         isLogin = true;
     }
 %>
@@ -38,6 +40,7 @@
             <% } else { %>
             <div class="ms-auto">
                 <a href="/logout" class="btn btn-outline-danger">Logout</a>
+                <a href="/user/<%=userLogin.getIdUser()%>" class="btn btn-outline-danger">Profile</a>
             </div>
             <% } %>
         </div>
