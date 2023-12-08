@@ -15,6 +15,7 @@ public class PostDAO {
             post.setDateCreated(rs.getDate("datecreate"));
             post.setIdSubSubject(rs.getString("idsubject"));
             post.setIdUser(rs.getString("iduser"));
+            post.setContent(rs.getString("content"));
             return post;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -46,8 +47,8 @@ public class PostDAO {
     }
 
     public void addPost(Post post) {
-        String query = "INSERT INTO post (idpost, title, datecreate, idsubject, iduser) VALUES (?, ?, ?, ?, ?)";
-        DBHelper.execute(query, post.getIdPost(), post.getTitle(), post.getDateCreated(), post.getIdSubSubject(), post.getIdUser());
+        String query = "INSERT INTO post (idpost, title, datecreate, content, idsubject, iduser) VALUES (?, ?, ?, ?, ?, ?)";
+        DBHelper.execute(query, post.getIdPost(), post.getTitle(), post.getDateCreated(), post.getContent(), post.getIdSubSubject(), post.getIdUser());
     }
 
     public void deletePost(String idPost) {

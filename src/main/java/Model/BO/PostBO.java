@@ -90,10 +90,12 @@ public class PostBO {
         return postDetailDTO;
     }
 
-    public void addPost(Post post) {
-        post.setIdPost(UUID.randomUUID().toString());
+    public String addPost(Post post) {
+        String uuid = UUID.randomUUID().toString();
+        post.setIdPost(uuid);
         post.setDateCreated(new Date());
         postDAO.addPost(post);
+        return uuid;
     }
 
     public boolean isEnable(String idSubject) {
