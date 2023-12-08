@@ -27,7 +27,7 @@
     ArrayList<SubSubject> listSubSubject = (ArrayList<SubSubject>) request.getAttribute("listSubSubject");
 %>
 <div class="container my-4">
-    <div class="container mt-3">
+    <div class="my-3">
         <div class="input-group">
             <select class="form-select" id="inputGroupSelect04">
                 <option selected>Everything</option>
@@ -38,8 +38,14 @@
             <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
         </div>
     </div>
+     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+         <% if (session.getAttribute("user") != null) { %>
+            <a href="/post/addpost"><button class="btn btn-primary" type="button">Bài viết mới</button></a>
+         <% }else { %>
+            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập để đăng bài viết</button>
+         <% } %>
+    </div>
     <div class="row">
-
         <%
             for (int i = 0; i < listMainjects.size(); i++) {
         %>
@@ -88,9 +94,7 @@
 
 
     <!-- New Topic Button -->
-    <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button class="btn btn-primary" type="button">New Topic</button>
-    </div> -->
+
 </div>
 
 <footer class="bg-dark text-white text-center text-lg-start">

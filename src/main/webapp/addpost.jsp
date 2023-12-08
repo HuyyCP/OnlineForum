@@ -27,7 +27,7 @@
 %>
 <div class="container mt-5">
     <h2>Add Post</h2>
-    <form action="/addpost" method="POST">
+    <form action="/post/addpost" method="POST">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" required>

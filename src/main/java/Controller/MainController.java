@@ -29,12 +29,16 @@ public class MainController extends HttpServlet {
             request.setAttribute("listMainSubject", subjectBO.getAllSubjects());
             SubSubjectBO subSubjectBO = new SubSubjectBO();
             request.setAttribute("listSubSubject", subSubjectBO.getAllSubjects());
+            HttpSession session = request.getSession();
+            session.setAttribute("currentUrl", request.getRequestURI());
             changeTo("/home.jsp", request, response);
         }else{
             PostBO postBO = new PostBO();
             request.setAttribute("listPost", postBO.getAllPostsBySubjectID(request.getParameter("IDSubSubject")));
             SubSubjectBO subSubjectBO = new SubSubjectBO();
             request.setAttribute("subSubject", subSubjectBO.getSubject(request.getParameter("IDSubSubject")));
+            HttpSession session = request.getSession();
+            session.setAttribute("currentUrl", request.getRequestURI());
             changeTo("/listpost.jsp", request, response);
         }
     }

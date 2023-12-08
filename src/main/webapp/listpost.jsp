@@ -32,6 +32,13 @@
                     <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
                 </div>
             </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <% if (session.getAttribute("user") != null) { %>
+                <a href="/post/addpost"><button class="btn btn-primary" type="button">Bài viết mới</button></a>
+                <% }else { %>
+                <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập để đăng bài viết</button>
+                <% } %>
+            </div>
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
