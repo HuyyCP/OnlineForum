@@ -36,6 +36,22 @@ public class CommentBO {
         return commentDTOS;
     }
 
+    public ArrayList<CommentDTO> getAllCommentsByUserID(String idUser) {
+        ArrayList<Comment> comments = commentDAO.getAllCommentsByUserID(idUser);
+        ArrayList<CommentDTO> commentDTOS = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentDTO commentDTO = new CommentDTO();
+            commentDTO.setIdcomment(comment.getIdcomment());
+            commentDTO.setMessage(comment.getMessage());
+            commentDTO.setDateComment(comment.getDateComment());
+            commentDTO.setIdPost(comment.getIdPost());
+            commentDTO.setIdUser(comment.getIdUser());
+            commentDTO.setUser(userDAO.getUserByID(comment.getIdUser()));
+            commentDTOS.add(commentDTO);
+        }
+        return commentDTOS;
+    }
+
     public void addComment(Comment comment) {
         comment.setIdcomment(UUID.randomUUID().toString());
         comment.setDateComment(new Date());

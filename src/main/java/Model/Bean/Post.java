@@ -9,6 +9,16 @@ public class Post {
     private String idUser;
     private String idSubSubject;
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    private String content;
+
     public String getIdPost() {
         return idPost;
     }

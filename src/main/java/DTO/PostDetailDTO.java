@@ -11,6 +11,7 @@ public class PostDetailDTO extends Post {
     String subsubjectName;
     ArrayList<CommentDTO> commentDTOs;
 
+
     public String getIdSubject() {
         return idSubject;
     }

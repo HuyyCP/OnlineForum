@@ -48,6 +48,33 @@ public class PostBO {
         return postDTOs;
     }
 
+    public ArrayList<PostDTO> getPostsPaging(String idSubject, Integer maxPage, Integer numPage) {
+        ArrayList<Post> posts = postDAO.getAllPostsBySubjectID(idSubject);
+        ArrayList<PostDTO> postDTOs = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostDTO postDTO = new PostDTO();
+            postDTO.setIdPost(post.getIdPost());
+            postDTO.setTitle(post.getTitle());
+            postDTO.setDateCreated(post.getDateCreated());
+            postDTO.setIdSubSubject(post.getIdSubSubject());
+            postDTO.setIdUser(post.getIdUser());
+            postDTO.setMemberName(userDAO.getUserByID(post.getIdUser()).getName());
+            postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
+            postDTOs.add(postDTO);
+        }
+
+        ArrayList<PostDTO> postDTOsPaging = new ArrayList<>();
+
+        for (int i = (numPage - 1) * maxPage; i < postDTOs.size() && i < numPage * maxPage; i++) {
+            postDTOsPaging.add(postDTOs.get(i));
+        }
+
+        System.out.println(postDTOsPaging.size());
+
+        return  postDTOsPaging;
+    }
+
     public PostDetailDTO getPostByID(String idPost) {
         Post post = postDAO.getPostByID(idPost);
         PostDetailDTO postDetailDTO = new PostDetailDTO();
@@ -63,10 +90,12 @@ public class PostBO {
         return postDetailDTO;
     }
 
-    public void addPost(Post post) {
-        post.setIdPost(UUID.randomUUID().toString());
+    public String addPost(Post post) {
+        String uuid = UUID.randomUUID().toString();
+        post.setIdPost(uuid);
         post.setDateCreated(new Date());
         postDAO.addPost(post);
+        return uuid;
     }
 
     public boolean isEnable(String idSubject) {
@@ -76,5 +105,9 @@ public class PostBO {
     public void deletePost(String idPost) {
         commentDAO.deleteCommentByPostID(idPost);
         postDAO.deletePost(idPost);
+    }
+
+    public Integer getNumPost(String idSubSubject) {
+        return postDAO.getNumPost(idSubSubject);
     }
 }

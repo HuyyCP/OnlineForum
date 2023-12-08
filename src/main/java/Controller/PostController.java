@@ -1,10 +1,12 @@
 package Controller;
 
+import DTO.CommentDTO;
 import DTO.PostDetailDTO;
 import Model.BO.CommentBO;
 import Model.BO.PostBO;
 import Model.Bean.Comment;
 import Model.Bean.Post;
+import Model.Bean.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 @WebServlet({"/post/*"})
 public class PostController extends HttpServlet {
@@ -36,9 +39,14 @@ public class PostController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getPathInfo();
-        String idPost = path.substring(1);
+        String idPost = path.substring(path.indexOf("/") + 1);
+        User user = ((User) req.getSession().getAttribute("user"));
         PostDetailDTO post = postBO.getPostByID(idPost);
         req.setAttribute("post", post);
+        if(user != null) {
+            ArrayList<CommentDTO> usercomments = commentBO.getAllCommentsByUserID(user.getIdUser());
+            req.setAttribute("usercomments", usercomments);
+        }
         HttpSession session = req.getSession();
         session.setAttribute("currentUrl", req.getRequestURI());
         changeTo("/PostDetail.jsp", req, resp);
