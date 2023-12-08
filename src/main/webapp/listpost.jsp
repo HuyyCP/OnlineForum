@@ -1,148 +1,120 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Model.Bean.Post" %>
 <%@ page import="DTO.PostDTO" %>
-<%@ page import="Model.Bean.SubSubject" %><%--
-  Created by IntelliJ IDEA.
-  User: ACER
-  Date: 05-Dec-23
-  Time: 14:39
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="Model.Bean.SubSubject" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
-    <link rel="stylesheet" href="Content/Home/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
-<body>
 <jsp:include page="header.jsp" />
-<header>
-    <!--NavBar Section-->
-    <div class="navbar">
-        <nav class="navigation hide" id="navigation">
-            <span class="close-icon" id="close-icon" onclick="showIconBar()"><i class="fa fa-close"></i></span>
-            <ul class="nav-list">
-                <li class="nav-item"><a href="forums.html">Forums</a></li>
-                <li class="nav-item"><a href="posts.html">Posts</a></li>
-                <li class="nav-item"><a href="detail.html">Detail</a></li>
-            </ul>
-        </nav>
-        <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
-        <div class="brand">My Forum</div>
-    </div>
-    <!--SearchBox Section-->
-    <div class="search-box">
-        <div>
-            <select name="" id="">
-                <option value="Everything">Everything</option>
-                <option value="Titles">Titles</option>
-                <option value="Descriptions">Descriptions</option>
-            </select>
-            <input type="text" name="q" placeholder="search ...">
-            <button><i class="fa fa-search"></i></button>
-        </div>
-    </div>
-</header>
-<div class="container">
-    <%
-        SubSubject subject = (SubSubject)request.getAttribute("subSubject");
-    %>
-    <!--Navigation-->
-    <div class="navigate">
-        <span><a href="MainController">MyForum - Forums</a> >> <%=subject.getSubjectName()%></span>
-    </div>
-    <!--Display posts table-->
-    <div class="posts-table">
-        <div class="table-head">
-            <div class="status">Status</div>
-            <div class="subjects">Subjects</div>
-            <div class="replies">Replies/Views</div>
-            <div class="last-reply">Last Reply</div>
-        </div>
-        <div class="table-row">
-            <div class="status"><i class="fa fa-fire"></i></div>
-            <div class="subjects">
-                <a href="">Is learning Python on 2021 worth it?</a>
-                <br>
-                <span>Started by <b><a href="">User</a></b> .</span>
-            </div>
-            <div class="replies">
-                2 replies <br> 125 views
+<body>
+<%
+    SubSubject subject = (SubSubject)request.getAttribute("subSubject");
+%>
+<main class="container my-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="mb-3">
+                <div class="input-group">
+                    <select class="form-select" id="inputGroupSelect04">
+                        <option selected>Everything</option>
+                        <option value="1">Titles</option>
+                        <option value="2">Descriptions</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="search ...">
+                    <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                </div>
             </div>
 
-            <div class="last-reply date-create">
-                Oct 12 2021
-                <br>By <b><a href="">User</a></b>
-            </div>
-        </div>
-        <!--starts here-->
-        <%
-            ArrayList<PostDTO> listPost = (ArrayList<PostDTO>) request.getAttribute("listPost");
-            for (int i = 0; i < listPost.size(); i++) {
-        %>
-        <div class="table-row">
-            <div class="status"><i class="fa fa-fire"></i></div>
-            <div class="subjects">
-                <a id="idpost" href="/post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a>
-                <br>
-                <span>Started by <b><a href=""><%=listPost.get(i).getMemberName()%></a></b> .</span>
-            </div>
-            <div class="replies">
-                <%=listPost.get(i).getNumComments()%> replies
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../../">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="../../subject/<%=subject.getIdSubject()%>/1"><%=subject.getSubjectName()%></li>
+                </ol>
+            </nav>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Status</th>
+                        <th scope="col">Subjects</th>
+                        <th scope="col">Replies/Views</th>
+                        <th scope="col">Last Reply</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Repeat for each post -->
+                    <%
+                        ArrayList<PostDTO> listPost = (ArrayList<PostDTO>)request.getAttribute("listPost");
+                        for (int i = 0; i < listPost.size(); i++) {
+                    %>
+                    <tr>
+                        <td><i class="fa fa-fire"></i></td>
+                        <td><a href="../../post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a><br><small>Started by <a
+                                href="#"><%=listPost.get(i).getMemberName()%></a></small></td>
+                        <td><%=listPost.get(i).getNumComments()%> replies</td>
+                        <td>Oct 12, 2021<br>By <a href="#">User</a></td>
+                    </tr>
+                    <%
+                        }
+                    %>
+
+                    <!-- More rows here -->
+                    </tbody>
+                </table>
             </div>
 
-            <div class="last-reply date-create">
-                <%=listPost.get(i).getDateCreated()%>
-                <br>By <b><a href="">User</a></b>
-            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <%
+                        int numPages =  (int)request.getAttribute("numPages");
+
+                        for (int i = 1; i <= (int)numPages; i++) {
+                    %>
+                        <li class="page-item"><a class="page-link" href="../../subject/<%=subject.getIdSubject()%>/<%=i%>"><%=i%>></a></li>
+                    <%
+                        }
+                    %>
+                </ul>
+            </nav>
         </div>
 
-        <%
-            }
-        %>
-
-        <!--ends here-->
+<%--        <div class="col-md-4">--%>
+<%--            <div class="mb-4">--%>
+<%--                <h5>Popular Topics</h5>--%>
+<%--                <ul class="list-group">--%>
+<%--                    <!-- Repeat for each popular topic -->--%>
+<%--                    <li class="list-group-item">--%>
+<%--                        <a href="#">Topic Title</a>--%>
+<%--                    </li>--%>
+<%--                    <!-- More items here -->--%>
+<%--                </ul>--%>
+<%--            </div>--%>
+<%--        </div>--%>
     </div>
-    <!--Pagination starts-->
-    <%
-        int numPage = (int) request.getAttribute("numPages");
-    %>
-    <div class="pagination">
-        pages:
-        <%
-            for (int i = 1; i <= numPage; i++) {
-        %>
-            <a href="/subject/<%=subject.getIdSubject()%>/<%=i%>"><%=i%></a>
-        <%
-            }
-        %>
-    </div>
-    <!--pagination ends-->
-</div>
+</main>
 
-<div class="note">
-    <span><i class="fa fa-frown-o"></i>&nbsp; 0 Engagement Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i
-        class="fa fa-share-square"></i></a><br>
-    <span><i class="fa fa-book"></i>&nbsp; Low Engagement Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i
-        class="fa fa-share-square"></i></a><br>
-    <span><i class="fa fa-fire"></i>&nbsp; Popular Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i
-        class="fa fa-share-square"></i></a><br>
-    <span><i class="fa fa-rocket"></i>&nbsp; High Engagement Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i
-        class="fa fa-share-square"></i></a><br>
-    <span><i class="fa fa-lock"></i>&nbsp; Closed Topic</span>&nbsp;&nbsp;&nbsp;<a href=""><i
-        class="fa fa-share-square"></i></a><br>
-</div>
-<jsp:include page="alert.jsp" />
-<footer>
-    <span>&copy;  Selmi Abderrahim | All Rights Reserved</span>
+<footer class="bg-dark text-white text-center text-lg-start">
+    <div class="container p-4">
+        <h5 class="text-uppercase mb-4">MyForum - Stats <i class="fa fa-bar-chart"></i></h5>
+        <span>5,369 Posts in 48 Topics by 8,124 Members. Latest post: <a href="#" class="text-white"><b>Random
+            post</b></a> on Dec 15 2021 By <a href="#" class="text-white">RandomUser</a></span>
+    </div>
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        &copy; Selmi Abderrahim | All Rights Reserved
+    </div>
 </footer>
-<script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<jsp:include page="alert.jsp" />
+
 </html>
