@@ -25,32 +25,58 @@
         PostDetailDTO post = (PostDetailDTO) request.getAttribute("post");
         ArrayList<CommentDTO> usercomments = (ArrayList<CommentDTO>) request.getAttribute("usercomments");
     %>
-
-    <div class="search-box">
-        <div>
-            <select name="" id="selectsubject">
-                <option value="Everything">Everything</option>
-                <option value="Titles">Titles</option>
-                <option value="Descriptions">Descriptions</option>
-            </select>
-            <input type="text" name="q" placeholder="search ...">
-            <button><i class="fa fa-search"></i></button>
-        </div>
-    </div>
-    <div class="container">
-        <!--Navigation-->
-        <div class="navigate">
-            <span><a href="/">MyForum - Forums</a> >> <a href="/subject/<%=post.getIdSubSubject()%>/1"><%=post.getSubsubjectName()%></a> >> <a href="/post/<%=post.getIdPost()%>"><%=post.getTitle()%></a></span>
-        </div>
-
-        <!--Topic Section-->
-        <div class="topic-container">
-            <!--Original thread-->
-            <div class="head">
-                <div class="authors"></div>
-                <div class="content"><span style="font-size:30px"><%=post.getTitle()%></span></div>
+    <div class="container my-4">
+        <div class="mb-3">
+            <div class="input-group">
+                <select class="form-select" id="inputGroupSelect04">
+                    <option selected>Everything</option>
+                    <option value="1">Titles</option>
+                    <option value="2">Descriptions</option>
+                </select>
+                <input type="text" class="form-control" placeholder="search ...">
+                <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
             </div>
         </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">MyForum - Forums</a></li>
+                <li class="breadcrumb-item"><a href="/subject/<%=post.getIdSubSubject()%>/1"><%=post.getSubsubjectName()%></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="/post/<%=post.getIdPost()%>"><%=post.getTitle()%></a></li>
+            </ol>
+        </nav>
+<%--    <div class="container">--%>
+        <!--Navigation-->
+<%--        <div class="navigate">--%>
+<%--            <span><a href="/">MyForum - Forums</a> >> <a href="/subject/<%=post.getIdSubSubject()%>/1"><%=post.getSubsubjectName()%></a> >> <a href="/post/<%=post.getIdPost()%>"><%=post.getTitle()%></a></span>--%>
+<%--        </div>--%>
+
+
+        <div class="card mb-4">
+            <div class="card-header">Author</div>
+            <div class="card-body">
+                <h5 class="card-title">Topic: <%=post.getTitle()%></h5>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                        <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt=""
+                             class="img-fluid rounded-circle" style="width: 60px; height: 60px;">
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        Username - <span class="text-muted">Role</span><br>
+                        Posts: 45 | Points: 4586
+                    </div>
+                </div>
+<%--                <p class="card-text">Just a random content of a random topic.</p>--%>
+<%--                <button class="btn btn-primary" onclick="showComment()">Comment</button>--%>
+            </div>
+        </div>
+        <!--Topic Section-->
+<%--        <div class="topic-container">--%>
+<%--            <!--Original thread-->--%>
+<%--            <div class="head">--%>
+<%--                <div class="authors"></div>--%>
+<%--                <div class="content"><span style="font-size:30px"><%=post.getTitle()%></span></div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
 
         <%
             User user = (User) session.getAttribute("user");
@@ -60,17 +86,40 @@
         <%
                 for(CommentDTO comment : usercomments) {
         %>
-                    <div class="body">
-                        <div class="authors">
-                            <div class="username"><a href=""><%=comment.getUser().getName()%></a></div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0">
+                                    <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt=""
+                                         class="img-fluid rounded-circle" style="width: 60px; height: 60px;">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <%=comment.getUser().getName()%> - <span class="text-muted">Role></span><br>
+                                    Posts: 455 | Points: 4586
+                                </div>
+                            </div>
+                            <p class="card-text"><%=comment.getMessage()%></p>
+                            <div style="position: relative; top:5px; right: 5px">
+                                <form method="POST" action="/comment/delete">
+                                    <input type="hidden" value="<%=comment.getIdcomment()%>" name="idComment">
+                                    <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">
+                                    <button type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+<%--                            <button class="btn btn-secondary" onclick="showReply()">Reply</button>--%>
                         </div>
-                        <div class="content"><%=comment.getMessage()%></div>
-                        <form method="POST" action="/comment/delete">
-                            <input type="hidden" value="<%=comment.getIdcomment()%>" name="idComment">
-                            <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">
-                            <button type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                        </form>
                     </div>
+<%--                    <div class="body">--%>
+<%--                        <div class="authors">--%>
+<%--                            <div class="username"><a href=""><%=comment.getUser().getName()%></a></div>--%>
+<%--                        </div>--%>
+<%--                        <div class="content"><%=comment.getMessage()%></div>--%>
+<%--                        <form method="POST" action="/comment/delete">--%>
+<%--                            <input type="hidden" value="<%=comment.getIdcomment()%>" name="idComment">--%>
+<%--                            <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">--%>
+<%--                            <button type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>--%>
+<%--                        </form>--%>
+<%--                    </div>--%>
         <%
                 }
         %>
@@ -83,18 +132,22 @@
         <%
             for(CommentDTO comment : post.getCommentDTOs()) {
         %>
-            <div class="comments-container">
-                <div class="body">
-                    <div class="authors">
-                        <div class="username"><a href=""><%=comment.getUser().getName()%></a></div>
-<%--                        <div>Role</div>--%>
-<%--                        <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">--%>
-<%--                        <div>Posts: <u>455</u></div>--%>
-<%--                        <div>Points: <u>4586</u></div>--%>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                        <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt=""
+                             class="img-fluid rounded-circle" style="width: 60px; height: 60px;">
                     </div>
-                    <div class="content"><%=comment.getMessage()%></div>
+                    <div class="flex-grow-1 ms-3">
+                        <%=comment.getUser().getName()%> - <span class="text-muted">Role</span><br>
+                        Posts: 455 | Points: 4586
+                    </div>
                 </div>
+                <p class="card-text"><%=comment.getMessage()%></p>
+<%--                <button class="btn btn-secondary" onclick="showReply()">Reply</button>--%>
             </div>
+        </div>
         <%
             }
         %>

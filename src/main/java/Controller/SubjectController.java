@@ -1,7 +1,11 @@
 package Controller;
 
+import DTO.SubjectStatDTO;
 import Model.BO.PostBO;
 import Model.BO.SubSubjectBO;
+import Model.BO.SubjectBO;
+import Model.Bean.Subject;
+import com.google.gson.Gson;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,9 +29,33 @@ public class SubjectController extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+    private void replyBack(HttpServletResponse resp, Object data) throws IOException {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        resp.setContentType("application/json");
+        resp.getWriter().write(json);
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        String path = req.getPathInfo();
+        switch (path) {
+            case "/statistics": {
+                SubjectBO subjectBO = new SubjectBO();
+                ArrayList<SubjectStatDTO> subjectStatDTOs = subjectBO.getSubjectsStat();
+                replyBack(resp, subjectStatDTOs);
+                break;
+            } case "/all-subjects": {
+                SubjectBO subjectBO = new SubjectBO();
+                ArrayList<Subject> subjects = subjectBO.getAllSubjects();
+                replyBack(resp, subjects);
+            } default : {
+                doPost(req, resp);
+            }
+        }
+
+
     }
 
     @Override

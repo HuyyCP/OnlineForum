@@ -1,5 +1,6 @@
 package Model.DAO;
 
+import DTO.SubjectStatDTO;
 import Helper.DBHelper;
 import Model.Bean.SubSubject;
 import Model.Bean.Subject;
@@ -56,6 +57,29 @@ public class SubjectDAO {
                 return getSubject(rs).getSubjectName();
             }
             return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<SubjectStatDTO> getSubjectsStat() {
+        try {
+            String query = "select subject.idsubject, subject.subjectname, count(distinct post.idpost) as numpost, count(distinct comment.idcomment) as numcomment\n" +
+                            "from subject left join subsubject  on subject.idsubject    = subsubject.idparentsubject " +
+                            "             left join post        on subsubject.idsubject = post.idsubject " +
+                            "             left join comment     on post.idpost          = comment.idpost " +
+                            "group by subject.idsubject";
+            ArrayList<SubjectStatDTO> statDTOs = new ArrayList<>();
+            ResultSet rs = DBHelper.query(query);
+            while (rs.next()) {
+                SubjectStatDTO statDTO = new SubjectStatDTO();
+                statDTO.setIdSubject(rs.getString("idsubject"));
+                statDTO.setSubjectName(rs.getString("subjectname"));
+                statDTO.setNumPost(rs.getInt("numpost"));
+                statDTO.setNumComment(rs.getInt("numcomment"));
+                statDTOs.add(statDTO);
+            }
+            return statDTOs;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
