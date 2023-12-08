@@ -58,8 +58,8 @@ public class UserDAO {
     }
 
     public void updateUser(User user) {
-        String query = "UPDATE user SET name = ?, email = ?, dateofbirth = ?, phonenumber = ?, datecreate = ?, idrole = ? WHERE iduser = ?";
-        DBHelper.execute(query, user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getDateCreated(), user.getIdRole(), user.getIdUser());
+        String query = "UPDATE user SET name = ?, email = ?, dateofbirth = ?, phonenumber = ? WHERE iduser = ?";
+        DBHelper.execute(query, user.getName(), user.getEmail(), user.getDob(), user.getPhoneNumber(), user.getIdUser());
     }
 
     // Khong nen xoa user
