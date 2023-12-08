@@ -66,22 +66,7 @@
             <div class="replies">Replies/Views</div>
             <div class="last-reply">Last Reply</div>
         </div>
-        <div class="table-row">
-            <div class="status"><i class="fa fa-fire"></i></div>
-            <div class="subjects">
-                <a href="">Is learning Python on 2021 worth it?</a>
-                <br>
-                <span>Started by <b><a href="">User</a></b> .</span>
-            </div>
-            <div class="replies">
-                2 replies <br> 125 views
-            </div>
 
-            <div class="last-reply date-create">
-                Oct 12 2021
-                <br>By <b><a href="">User</a></b>
-            </div>
-        </div>
         <!--starts here-->
         <%
             ArrayList<PostDTO> listPost = (ArrayList<PostDTO>) request.getAttribute("listPost");

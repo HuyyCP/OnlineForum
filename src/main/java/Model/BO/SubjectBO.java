@@ -1,8 +1,13 @@
 package Model.BO;
 
+import DTO.SubjectStatDTO;
+import Helper.DBHelper;
 import Model.Bean.Subject;
 import Model.DAO.SubjectDAO;
 import Model.DAO.SubsubjectDAO;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -18,6 +23,10 @@ public class SubjectBO {
 
     public ArrayList<Subject> getAllSubjects() {
         return subjectDAO.getAllSubjects();
+    }
+
+    public ArrayList<SubjectStatDTO> getSubjectsStat() {
+        return subjectDAO.getSubjectsStat();
     }
 
     public void addSubject(Subject subject) {
