@@ -75,6 +75,25 @@ public class PostBO {
         return  postDTOsPaging;
     }
 
+    public ArrayList<PostDTO> getLastPostForEachSubSubjects() {
+        ArrayList<Post> posts = postDAO.getLastPostForEachSubSubjects();
+        ArrayList<PostDTO> postDTOs = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostDTO postDTO = new PostDTO();
+            postDTO.setIdPost(post.getIdPost());
+            postDTO.setTitle(post.getTitle());
+            postDTO.setDateCreated(post.getDateCreated());
+            postDTO.setIdSubSubject(post.getIdSubSubject());
+            postDTO.setIdUser(post.getIdUser());
+            postDTO.setMemberName(userDAO.getUserByID(post.getIdUser()).getName());
+            postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
+            postDTOs.add(postDTO);
+        }
+        return postDTOs;
+    }
+
+
     public PostDetailDTO getPostByID(String idPost) {
         Post post = postDAO.getPostByID(idPost);
         PostDetailDTO postDetailDTO = new PostDetailDTO();

@@ -1,6 +1,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Model.Bean.Subject" %>
-<%@ page import="Model.Bean.SubSubject" %><%--
+<%@ page import="Model.Bean.SubSubject" %>
+<%@ page import="DTO.PostDTO" %><%--
   Created by IntelliJ IDEA.
   User: ACER
   Date: 04-Dec-23
@@ -25,6 +26,7 @@
 <%
     ArrayList<Subject> listMainjects = (ArrayList<Subject>) request.getAttribute("listMainSubject");
     ArrayList<SubSubject> listSubSubject = (ArrayList<SubSubject>) request.getAttribute("listSubSubject");
+    ArrayList<PostDTO> lastestPosts = (ArrayList<PostDTO>) request.getAttribute("lastestPost");
 %>
 <div class="container my-4">
     <div class="my-3">
@@ -38,12 +40,16 @@
             <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
         </div>
     </div>
-     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-         <% if (session.getAttribute("user") != null) { %>
-            <a href="/post/addpost"><button class="btn btn-primary" type="button">Bài viết mới</button></a>
-         <% }else { %>
-            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập để đăng bài viết</button>
-         <% } %>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <% if (session.getAttribute("user") != null) { %>
+        <a href="/post/addpost">
+            <button class="btn btn-primary" type="button">Bài viết mới</button>
+        </a>
+        <% } else { %>
+        <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng
+            nhập để đăng bài viết
+        </button>
+        <% } %>
     </div>
     <div class="row">
         <%
@@ -66,14 +72,38 @@
                                 <i class="fa fa-car fa-2x"></i>
                             </div>
                             <div class="col-md-7">
-                                <h5><a href="subject/<%=listSubSubject.get(j).getIdSubject()%>/1"><%=listSubSubject.get(j).getSubjectName()%></a></h5>
+                                <h5>
+                                    <a href="subject/<%=listSubSubject.get(j).getIdSubject()%>/1"><%=listSubSubject.get(j).getSubjectName()%>
+                                    </a></h5>
                             </div>
                             <div class="col-md-2 text-center">
                                 <span> Posts</span><br>
                                 <span>12 Topics</span>
                             </div>
                             <div class="col-md-2">
-                                <small><b>Last post:</b> by User<br>on 12 Dec 2020</small>
+                                <%
+                                    boolean check = true;
+                                    for (int k = 0; k < lastestPosts.size(); k++) {
+                                        if (lastestPosts.get(k).getIdSubSubject().equals(listSubSubject.get(j).getIdSubject())) {
+                                %>
+                                <small><a href="/post/<%=lastestPosts.get(k).getIdPost()%>"><b><%=lastestPosts.get(k).getTitle()%></a>
+                                </b> by <%=lastestPosts.get(k).getMemberName()%>
+                                    <br>on <%=lastestPosts.get(k).getDateCreated()%>
+                                </small>
+                                <%
+                                            check = false;
+                                            break;
+                                        }
+                                    }
+
+                                    if (check) {
+                                %>
+                                <small> No post available
+                                </small>
+                                <%
+                                    }
+                                %>
+
                             </div>
                             <%
                                     }

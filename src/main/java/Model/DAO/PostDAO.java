@@ -77,4 +77,25 @@ public class PostDAO {
 
         return null;
     }
+
+    public ArrayList<Post> getLastPostForEachSubSubjects() {
+        try {
+            String query = "SELECT p.idpost, p.title, p.datecreate, p.idsubject, p.iduser, s.subjectname, p.content\n" +
+                    "FROM post p JOIN subsubject s ON p.idsubject = s.idsubject\n" +
+                    "INNER JOIN \n" +
+                    "(\n" +
+                    "  SELECT idsubject, MAX(datecreate) AS max_date \n" +
+                    "  FROM post\n" +
+                    "  GROUP BY idsubject\n" +
+                    ") pm ON p.idsubject = pm.idsubject AND p.datecreate = pm.max_date";
+            ResultSet rs = DBHelper.query(query);
+            ArrayList<Post> posts = new ArrayList<>();
+            while(rs.next()) {
+                posts.add(getPost(rs));
+            }
+            return posts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
