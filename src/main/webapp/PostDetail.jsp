@@ -49,9 +49,16 @@
         </nav>
 
         <div class="card mb-4">
-            <div class="card-header"><%=post.getUser().getName()%></div>
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <p class="mb-0 flex-grow-1 fw-bold"><%=post.getTitle()%></p>
+                    <% if ( user != null && post !=null &&   user.getIdUser().equals(post.getUser().getIdUser())) { %>
+                    <button class="btn btn-outline-success mx-2" onclick="editPost('<%=post.getIdPost()%>')">Chỉnh sửa</button>
+                    <button class="btn btn-outline-danger" onclick="window.location.href='/post/delete?idPost=<%=post.getIdPost()%>'">Xóa</button>
+                    <% } %>
+                </div>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Topic: <%=post.getTitle()%></h5>
                 <div class="d-flex align-items-center mb-3">
                     <div class="flex-shrink-0">
                         <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt=""
@@ -62,7 +69,16 @@
                         at <%=formatter.format(post.getDateCreated())%>
                     </div>
                 </div>
-                <p class="card-text"><%=post.getContent()%></p>
+                <div class="card-text" style="display: block;"><%=post.getContent()%></div>
+                <form action="/post/editpost" id="editPost<%=post.getIdPost()%>" style="display:none;" method="post">
+
+                    <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">
+                    <label for="titleEdit" class="form-label">Title</label>
+                    <input type="text" class="form-control" value="<%=post.getTitle()%>" name="titleEdit" id="titleEdit">
+                    <label for="editContent<%=post.getIdPost()%>" class="form-label">Content</label>
+                    <textarea id="editContent<%=post.getIdPost()%>" name="editContent"><%=post.getContent()%></textarea>
+                    <button class="btn btn-primary mt-3" type="submit">Save</button>
+                </form>
             </div>
         </div>
 
@@ -127,6 +143,24 @@
         ],
         ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
       });
+      function editPost(postId) {
+        document.getElementById('editPost' + postId).style.display = 'block';
+        const contentElement = document.querySelector('.card-text');
+        console.log(contentElement);
+        contentElement.style.display = 'none';
+        tinymce.init({
+          selector: '#editContent' + postId,
+          plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+          toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+          tinycomments_mode: 'embedded',
+          tinycomments_author: 'Author name',
+          mergetags_list: [
+            { value: 'First.Name', title: 'First Name' },
+            { value: 'Email', title: 'Email' },
+          ],
+          ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
+      }
     </script>
 </body>
 </html>

@@ -19,7 +19,7 @@
 
 <%
     if (session.getAttribute("user") == null) {
-        response.sendRedirect("/home");
+        response.sendRedirect("/");
     }
 
     ArrayList<Subject> subjects = (ArrayList<Subject>) request.getAttribute("subjects");

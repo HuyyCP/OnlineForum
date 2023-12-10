@@ -124,6 +124,10 @@ public class PostBO {
         postDAO.deletePost(idPost);
     }
 
+    public void updatePost(Post post) {
+        postDAO.updatePost(post);
+    }
+
     public Integer getNumPost(String idSubSubject) {
         return postDAO.getNumPost(idSubSubject);
     }

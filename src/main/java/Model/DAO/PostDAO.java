@@ -148,7 +148,6 @@ public class PostDAO {
             throw new RuntimeException(e);
         }
     }
-
     public Integer getNumPostFilter(String idSubSubject, String text) {
         try {
             String query = "SELECT count(*) FROM post WHERE idsubject = ? AND title LIKE '%" + text + "%'" ;
@@ -164,5 +163,9 @@ public class PostDAO {
         }
 
         return null;
+    }
+    public void updatePost(Post post) {
+        String query = "UPDATE post SET title = ?, content = ?, idsubject = ? WHERE idpost = ?";
+        DBHelper.execute(query, post.getTitle(), post.getContent(), post.getIdSubSubject(), post.getIdPost());
     }
 }
