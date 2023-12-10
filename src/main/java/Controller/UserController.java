@@ -87,7 +87,7 @@ public class UserController extends HttpServlet {
 
             req.getSession().setAttribute("user", userBO.getUserById(idUser));
             req.setAttribute("profileUser", userBO.getUserById(idUser));
-            resp.sendRedirect("../../user" + "/" + idUser);
+            resp.sendRedirect("/user/" + idUser);
 
         } catch (Exception e) {
             e.printStackTrace();

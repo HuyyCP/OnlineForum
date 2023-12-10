@@ -78,7 +78,7 @@
                     <tr>
                         <td><i class="fa fa-fire"></i></td>
                         <td><a href="/post/<%=listPost.get(i).getIdPost()%>/1"><%=listPost.get(i).getTitle()%></a><br><small>Started by <a
-                                href="#"><%=listPost.get(i).getUser().getName()%></a></small></td>
+                                href="/user/<%=listPost.get(i).getIdUser()%>"><%=listPost.get(i).getUser().getName()%></a></small></td>
                         <td><%=listPost.get(i).getNumComments()%> replies</td>
                         <%
                             boolean check = true;
@@ -86,7 +86,7 @@
                                 if (lastComment.get(j).getIdPost().equals(listPost.get(i).getIdPost())) {
                         %>
                         <td><%=formatter.format(lastComment.get(j).getDateComment())%><br>By <a
-                                href="#"><%=lastComment.get(j).getUser().getName()%>
+                                href="/user/<%=lastComment.get(i).getIdUser()%>"><%=lastComment.get(j).getUser().getName()%>
                         </a></td>
                         <%
                                     check = false;
