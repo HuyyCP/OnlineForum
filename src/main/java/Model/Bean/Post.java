@@ -1,13 +1,16 @@
 package Model.Bean;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Post {
     private String idPost;
     private String title;
-    private Date dateCreated;
+    private Timestamp dateCreated;
     private String idUser;
     private String idSubSubject;
+    private User user;
+    private SubSubject subsubject;
 
     public String getContent() {
         return content;
@@ -35,11 +38,11 @@ public class Post {
         this.title = title;
     }
 
-    public Date getDateCreated() {
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -59,4 +62,19 @@ public class Post {
         this.idSubSubject = idSubSubject;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public SubSubject getSubsubject() {
+        return subsubject;
+    }
+
+    public void setSubsubject(SubSubject subsubject) {
+        this.subsubject = subsubject;
+    }
 }

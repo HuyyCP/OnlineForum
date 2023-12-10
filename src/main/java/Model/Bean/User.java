@@ -10,6 +10,7 @@ public class User {
     private String phoneNumber;
     private Date dateCreated;
     private String idRole;
+    private Role role;
 
     public String getIdUser() {
         return idUser;
@@ -65,5 +66,13 @@ public class User {
 
     public void setIdRole(String idRole) {
         this.idRole = idRole;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

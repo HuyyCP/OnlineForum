@@ -1,13 +1,11 @@
 package Model.BO;
 
+import DTO.BestPostDTO;
 import DTO.PostDTO;
-import DTO.PostDetailDTO;
-import Model.Bean.Comment;
 import Model.Bean.Post;
 import Model.DAO.*;
 
-import javax.security.auth.Subject;
-import java.sql.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -17,17 +15,17 @@ public class PostBO {
     private PostDAO postDAO;
     private CommentDAO commentDAO;
     private SubsubjectDAO subsubjectDAO;
-    private SubjectDAO subjectDAO;
     private UserDAO userDAO;
-    private CommentBO commentBO;
+    private SubSubjectBO subSubjectBO;
+    private UserBO userBO;
 
     public PostBO() {
         postDAO = new PostDAO();
         commentDAO = new CommentDAO();
         userDAO = new UserDAO();
-        subjectDAO = new SubjectDAO();
         subsubjectDAO = new SubsubjectDAO();
-        commentBO = new CommentBO();
+        subSubjectBO = new SubSubjectBO();
+        userBO = new UserBO();
     }
 
     public ArrayList<PostDTO> getAllPostsBySubjectID(String idSubject) {
@@ -41,7 +39,7 @@ public class PostBO {
             postDTO.setDateCreated(post.getDateCreated());
             postDTO.setIdSubSubject(post.getIdSubSubject());
             postDTO.setIdUser(post.getIdUser());
-            postDTO.setMemberName(userDAO.getUserByID(post.getIdUser()).getName());
+            postDTO.setUser(userDAO.getUserByID(post.getIdUser()));
             postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
             postDTOs.add(postDTO);
         }
@@ -59,7 +57,7 @@ public class PostBO {
             postDTO.setDateCreated(post.getDateCreated());
             postDTO.setIdSubSubject(post.getIdSubSubject());
             postDTO.setIdUser(post.getIdUser());
-            postDTO.setMemberName(userDAO.getUserByID(post.getIdUser()).getName());
+            postDTO.setUser(userDAO.getUserByID(post.getIdUser()));
             postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
             postDTOs.add(postDTO);
         }
@@ -73,6 +71,18 @@ public class PostBO {
         System.out.println(postDTOsPaging.size());
 
         return  postDTOsPaging;
+    }
+
+
+    public int getNumPost() {
+        return postDAO.getNumPost();
+    }
+
+    public Post getPostByID(String idPost) {
+        Post post = postDAO.getPostByID(idPost);
+        post.setUser(userBO.getUserById(post.getIdUser()));
+        post.setSubsubject(subSubjectBO.getSubject(post.getIdSubSubject()));
+        return post;
     }
 
     public ArrayList<PostDTO> getLastPostForEachSubSubjects() {
@@ -93,26 +103,14 @@ public class PostBO {
         return postDTOs;
     }
 
-
-    public PostDetailDTO getPostByID(String idPost) {
-        Post post = postDAO.getPostByID(idPost);
-        PostDetailDTO postDetailDTO = new PostDetailDTO();
-        postDetailDTO.setIdPost(post.getIdPost());
-        postDetailDTO.setTitle(post.getTitle());
-        postDetailDTO.setDateCreated(post.getDateCreated());
-        postDetailDTO.setIdSubSubject(post.getIdSubSubject());
-        postDetailDTO.setIdUser(post.getIdUser());
-        postDetailDTO.setSubjectName(subjectDAO.getSubjectByID(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getIdParentSubject()).getSubjectName());
-        postDetailDTO.setSubsubjectName(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getSubjectName());
-        postDetailDTO.setIdSubject(subjectDAO.getSubjectByID(subsubjectDAO.getSubSubject(post.getIdSubSubject()).getIdParentSubject()).getIdSubject());
-        postDetailDTO.setCommentDTOs(commentBO.getAllCommentsByPostID(post.getIdPost()));
-        return postDetailDTO;
+    public BestPostDTO getBestPost() {
+        return postDAO.getBestPost();
     }
 
     public String addPost(Post post) {
         String uuid = UUID.randomUUID().toString();
         post.setIdPost(uuid);
-        post.setDateCreated(new Date());
+        post.setDateCreated(new Timestamp(System.currentTimeMillis()));
         postDAO.addPost(post);
         return uuid;
     }

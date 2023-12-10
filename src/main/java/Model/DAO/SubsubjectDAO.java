@@ -1,5 +1,6 @@
 package Model.DAO;
 
+import DTO.BestSubjectDTO;
 import DTO.SubjectStatDTO;
 import Helper.DBHelper;
 import Model.Bean.SubSubject;
@@ -65,6 +66,17 @@ public class SubsubjectDAO {
         }
     }
 
+    public int getNumSubject() {
+        try {
+            String query = "SELECT COUNT(*) as numSubject FROM subsubject ";
+            ResultSet rs = DBHelper.query(query);
+            rs.next();
+            return rs.getInt("numSubject");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ArrayList<SubjectStatDTO> getSubSubjectsStat(String idSubject) {
         try {
             String query = "select subsubject.idsubject, subsubject.subjectname, count(distinct post.idpost) as numpost, count(distinct comment.idcomment) as numcomment " +
@@ -83,6 +95,27 @@ public class SubsubjectDAO {
                 statDTOs.add(statDTO);
             }
             return statDTOs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public BestSubjectDTO getBestSubject() {
+        try {
+            String query = "select subsubject.idsubject, subsubject.subjectname, count(distinct post.idpost) as numpost, count(distinct comment.idcomment) as numcomment " +
+                            "from subsubject left join post on subsubject.idsubject = post.idsubject " +
+                            "                left join comment on post.idpost = comment.idpost " +
+                            "group by subsubject.idsubject " +
+                            "order by numcomment desc, numpost desc " +
+                            "limit 1";
+            ResultSet rs = DBHelper.query(query);
+            rs.next();
+            BestSubjectDTO subject = new BestSubjectDTO();
+            subject.setIdSubject(rs.getString("idsubject"));
+            subject.setSubjectName(rs.getString("subjectname"));
+            subject.setNumPosts(rs.getInt("numpost"));
+            subject.setNumComments(rs.getInt("numcomment"));
+            return subject;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
