@@ -12,32 +12,61 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-    <%
-        User userLogin = (User)session.getAttribute("user");
-    %>
+<%
+    User userLogin = (User) session.getAttribute("user");
+    User profileUser = (User) request.getAttribute("profileUser");
+%>
 
-    <!-- Bootstrap form -->
-    <div class="container my-4">
-        <form action="../user/update/<%=userLogin.getIdUser()%>" method="post" class="m-3">
-            <div class="mb-3">
-                <label for="name" class="form-label">Tên người dùng</label>
-                <input type="text" class="form-control" id="name" value="<%=userLogin.getName()%>" name="name">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" value="<%=userLogin.getEmail()%>" name="email" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="dateofbirth" class="form-label">Ngày sinh</label>
-                <input type="date" class="form-control" id="dateofbirth" value="<%=userLogin.getDob()%>" name="dateofbirth">
-            </div>
-            <div class="mb-3">
-                <label for="phonenumber" class="form-label">Số điện thoại</label>
-                <input type="tel" class="form-control" id="phonenumber" value="<%=userLogin.getPhoneNumber()%>" name="phonenumber">
-            </div>
-            <button type="submit" class="btn btn-primary">Cập nhật</button>
-        </form>
-    </div>
+<!-- Bootstrap form -->
+<div class="container my-4">
+    <form action="../user/update/<%=userLogin.getIdUser()%>" method="post" class="m-3">
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên người dùng</label>
+            <input type="text" class="form-control" id="name" value="<%=profileUser.getName()%>" name="name"
+                <%
+                    if(!profileUser.getIdUser().equals(userLogin.getIdUser())){
+                        %>
+                   readonly
+                <%
+                    }
+                %>>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" value="<%=profileUser.getEmail()%>" name="email"
+                   readonly>
+        </div>
+        <div class="mb-3">
+            <label for="dateofbirth" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="dateofbirth" value="<%=profileUser.getDob()%>"
+                   name="dateofbirth" <%
+                    if(!profileUser.getIdUser().equals(userLogin.getIdUser())){
+                        %>
+                   readonly
+                <%
+                    }
+                %>>
+        </div>
+        <div class="mb-3">
+            <label for="phonenumber" class="form-label">Số điện thoại</label>
+            <input type="tel" class="form-control" id="phonenumber" value="<%=profileUser.getPhoneNumber()%>"
+                   name="phonenumber" <%
+                    if(!profileUser.getIdUser().equals(userLogin.getIdUser())){
+                        %>
+                   readonly
+                <%
+                    }
+                %>>
+        </div>
+        <%
+            if(profileUser.getIdUser().equals(userLogin.getIdUser())){
+        %>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <%
+            }
+        %>
+    </form>
+</div>
 <jsp:include page="footer.jsp"/>
 </body>
 </html>

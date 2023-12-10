@@ -86,7 +86,8 @@ public class UserController extends HttpServlet {
             userBO.updateUser(updatedUser);
 
             req.getSession().setAttribute("user", userBO.getUserById(idUser));
-            resp.sendRedirect("../../user/ " + idUser);
+            req.setAttribute("profileUser", userBO.getUserById(idUser));
+            resp.sendRedirect("../../user" + "/" + idUser);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,6 +95,7 @@ public class UserController extends HttpServlet {
     }
 
     private void showProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.setAttribute("profileUser", userBO.getUserById(req.getPathInfo().substring(1)));
         changeTo("/profile.jsp", req, resp);
     }
 }
