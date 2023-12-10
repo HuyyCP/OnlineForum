@@ -33,8 +33,6 @@
         <div class="input-group">
             <select class="form-select" id="inputGroupSelect04">
                 <option selected>Everything</option>
-                <option value="1">Titles</option>
-                <option value="2">Descriptions</option>
             </select>
             <input type="text" class="form-control" placeholder="search ...">
             <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
@@ -55,7 +53,7 @@
         <%
             for (int i = 0; i < listMainjects.size(); i++) {
         %>
-        <div class="col-lg-8">
+        <div class="col-lg-10">
             <div class="card mb-3">
                 <div class="card-header">
                     <h4><%=listMainjects.get(i).getSubjectName()%>
@@ -77,8 +75,7 @@
                                     </a></h5>
                             </div>
                             <div class="col-md-2 text-center">
-                                <span> Posts</span><br>
-                                <span>12 Topics</span>
+                                <span> 2K Posts</span>
                             </div>
                             <div class="col-md-2">
                                 <%

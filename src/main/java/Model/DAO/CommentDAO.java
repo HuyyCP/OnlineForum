@@ -80,4 +80,26 @@ public class CommentDAO {
         DBHelper.execute(query, idPost);
     }
 
+    public ArrayList<Comment> getLastCommentForEachPost(String idSubject) {
+        try {
+            String query = "SELECT c.*\n" +
+                    "FROM comment c\n" +
+                    "INNER JOIN post p ON c.idpost = p.idpost\n" +
+                    "INNER JOIN \n" +
+                    "(\n" +
+                    "  SELECT idpost, MAX(datecomment) AS max_date \n" +
+                    "  FROM comment\n" +
+                    "  GROUP BY idpost\n" +
+                    ") last_comments ON c.idpost = last_comments.idpost AND c.datecomment = last_comments.max_date\n" +
+                    "WHERE p.idsubject = ?";
+            ResultSet rs = DBHelper.query(query, idSubject);
+            ArrayList<Comment> comments = new ArrayList<>();
+            while(rs.next()) {
+                comments.add(getComment(rs));
+            }
+            return comments;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
