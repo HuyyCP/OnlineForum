@@ -36,7 +36,6 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/">Trang chủ</a>
                 </li>
-
             </ul>
             <% if (!isLogin) { %>
             <div class="ms-auto">

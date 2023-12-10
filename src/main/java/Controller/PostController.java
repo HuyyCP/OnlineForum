@@ -77,6 +77,31 @@ public class PostController extends HttpServlet {
                 replyBack(resp, postBO.getBestPost());
                 break;
             }
+            case "delete": {
+                User userDelete = (User) req.getSession().getAttribute("user");
+                if (userDelete == null) {
+                    resp.sendRedirect(req.getContextPath() + "/home");
+                    return;
+                }
+
+                String idPostDelete = req.getParameter("idPost");
+
+                if (idPostDelete == null) {
+                    resp.sendRedirect(req.getContextPath() + "/home");
+                    return;
+                }
+
+                Post post = postBO.getPostByID(idPostDelete);
+
+                if (!userDelete.getIdUser().equals(post.getIdUser())) {
+                    resp.sendRedirect(req.getContextPath() + "/home");
+                    return;
+                }
+
+                postBO.deletePost(idPostDelete);
+                resp.sendRedirect(req.getContextPath() + "/home");
+                break;
+            }
             default:
             {
                 String[] params = param.split("/");
@@ -97,9 +122,10 @@ public class PostController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String path = req.getServletPath();
+        String path = req.getPathInfo();
         switch (path) {
-            case "/post/addpost":
+            case "/addpost":
+                System.out.println("addpost");
                 String title = req.getParameter("title");
                 String content = req.getParameter("content");
                 String idSubSubject = req.getParameter("subsubject");
@@ -110,7 +136,18 @@ public class PostController extends HttpServlet {
                 post.setIdUser(user.getIdUser());
                 post.setContent(content);
                 String uuid = postBO.addPost(post);
-                resp.sendRedirect("post/" + uuid);
+                System.out.println(uuid);
+                resp.sendRedirect("post/" + uuid + "/1");
+                break;
+            case "/editpost":
+                String idPost = req.getParameter("idPost");
+                String titleEdit = req.getParameter("titleEdit");
+                String contentEdit = req.getParameter("editContent");
+                Post postEdit = postBO.getPostByID(idPost);
+                postEdit.setTitle(titleEdit);
+                postEdit.setContent(contentEdit);
+                postBO.updatePost(postEdit);
+                resp.sendRedirect(req.getContextPath() + "/post/" + idPost + "/1");
                 break;
             default:
                 resp.sendRedirect(req.getContextPath() + "/home");

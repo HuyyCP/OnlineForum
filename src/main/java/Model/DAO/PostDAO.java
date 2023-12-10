@@ -132,4 +132,9 @@ public class PostDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public void updatePost(Post post) {
+        String query = "UPDATE post SET title = ?, content = ?, idsubject = ? WHERE idpost = ?";
+        DBHelper.execute(query, post.getTitle(), post.getContent(), post.getIdSubSubject(), post.getIdPost());
+    }
 }
