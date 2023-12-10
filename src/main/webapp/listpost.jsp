@@ -65,8 +65,8 @@
                     %>
                     <tr>
                         <td><i class="fa fa-fire"></i></td>
-                        <td><a href="/post/<%=listPost.get(i).getIdPost()%>"><%=listPost.get(i).getTitle()%></a><br><small>Started by <a
-                                href="#"><%=listPost.get(i).getMemberName()%></a></small></td>
+                        <td><a href="/post/<%=listPost.get(i).getIdPost()%>/1"><%=listPost.get(i).getTitle()%></a><br><small>Started by <a
+                                href="#"><%=listPost.get(i).getUser().getName()%></a></small></td>
                         <td><%=listPost.get(i).getNumComments()%> replies</td>
                         <td>Oct 12, 2021<br>By <a href="#">User</a></td>
                     </tr>
@@ -85,7 +85,7 @@
 
                         for (int i = 1; i <= (int)numPages; i++) {
                     %>
-                        <li class="page-item"><a class="page-link" href="/subject/<%=subject.getIdSubject()%>/<%=i%>"><%=i%>></a></li>
+                        <li class="page-item"><a class="page-link" href="/subject/<%=subject.getIdSubject()%>/<%=i%>"><%=i%></a></li>
                     <%
                         }
                     %>

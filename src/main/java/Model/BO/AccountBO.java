@@ -12,13 +12,21 @@ import java.util.UUID;
 public class AccountBO {
 
     private AccountDAO accountDAO;
+    private UserBO userBO;
 
     public AccountBO() {
         accountDAO = new AccountDAO();
+        userBO = new UserBO();
     }
 
     public String isValidAccount(String username, String password) {
         return accountDAO.isValidAccount(username, password);
+    }
+
+    public Account getAccountByID(String idAccount) {
+        Account account = accountDAO.getAccountByID(idAccount);
+        account.setUser(userBO.getUserById(account.getIduser()));
+        return account;
     }
 
     public void addAccount(Account account) {

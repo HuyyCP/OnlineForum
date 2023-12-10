@@ -1,5 +1,6 @@
 package Model.BO;
 
+import DTO.BestSubjectDTO;
 import DTO.SubjectStatDTO;
 import Helper.DBHelper;
 import Model.Bean.Subject;
@@ -15,9 +16,12 @@ import java.util.UUID;
 public class SubSubjectBO {
     private SubsubjectDAO subsubjectDAO;
     private PostDAO postDAO;
+    private SubjectBO subjectBO;
 
     public SubSubjectBO() {
         subsubjectDAO = new SubsubjectDAO();
+        postDAO = new PostDAO();
+        subjectBO = new SubjectBO();
     }
 
     public ArrayList<SubSubject> getAllSubjects() {
@@ -25,11 +29,21 @@ public class SubSubjectBO {
     }
 
     public SubSubject getSubject(String idSubSubject) {
-        return subsubjectDAO.getSubSubject(idSubSubject);
+        SubSubject subSubject = subsubjectDAO.getSubSubject(idSubSubject);
+        subSubject.setSubject(subjectBO.getSubjectByID(subSubject.getIdParentSubject()));
+        return subSubject;
+    }
+
+    public int getNumSubsubject() {
+        return subsubjectDAO.getNumSubject();
     }
 
     public ArrayList<SubjectStatDTO> getSubSubjectsStat(String idSubject) {
         return subsubjectDAO.getSubSubjectsStat(idSubject);
+    }
+
+    public BestSubjectDTO getBestSubject() {
+        return subsubjectDAO.getBestSubject();
     }
 
     public void addSubject(SubSubject subSubject) {

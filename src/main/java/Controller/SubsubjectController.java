@@ -45,8 +45,21 @@ public class SubsubjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getPathInfo();
-        String idSubsubject = path.substring(1);
-        ArrayList<SubjectStatDTO> subjectStatDTOs = subsubjectBO.getSubSubjectsStat(idSubsubject);
-        replyBack(resp, subjectStatDTOs);
+        switch (path) {
+            case "/count" : {
+                replyBack(resp, subsubjectBO.getNumSubsubject());
+                break;
+            }
+            case "/best" : {
+                replyBack(resp, subsubjectBO.getBestSubject());
+                break;
+            }
+            default : {
+                String idSubsubject = path.substring(1);
+                ArrayList<SubjectStatDTO> subjectStatDTOs = subsubjectBO.getSubSubjectsStat(idSubsubject);
+                replyBack(resp, subjectStatDTOs);
+            }
+        }
+
     }
 }

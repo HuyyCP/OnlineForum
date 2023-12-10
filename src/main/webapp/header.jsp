@@ -39,8 +39,11 @@
             </div>
             <% } else { %>
             <div class="ms-auto">
+                <% if(userLogin.getRole().getRoleName().equals("Admin")) { %>
+                    <a href="/admin" class="btn btn-primary">Admin</a>
+                <% } %>
+                <a href="/user/<%=userLogin.getIdUser()%>" class="btn btn-primary">Profile</a>
                 <a href="/logout" class="btn btn-outline-danger">Logout</a>
-                <a href="/user/<%=userLogin.getIdUser()%>" class="btn btn-outline-danger">Profile</a>
             </div>
             <% } %>
         </div>

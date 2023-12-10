@@ -12,7 +12,7 @@ public class CommentDAO {
             Comment comment = new Comment();
             comment.setIdcomment(rs.getString("idcomment"));
             comment.setMessage(rs.getString("message"));
-            comment.setDateComment(rs.getDate("datecomment"));
+            comment.setDateComment(rs.getTimestamp("datecomment"));
             comment.setIdPost(rs.getString("idpost"));
             comment.setIdUser(rs.getString("iduser"));
             return comment;
@@ -23,7 +23,7 @@ public class CommentDAO {
 
     public ArrayList<Comment> getAllCommentsByPostID(String idPost) {
         try {
-            String query = "SELECT * FROM comment WHERE idpost = ? ORDER BY datecomment";
+            String query = "SELECT * FROM comment WHERE idpost = ? ORDER BY datecomment DESC";
             ResultSet rs = DBHelper.query(query, idPost);
             ArrayList<Comment> comments = new ArrayList<>();
             while(rs.next()) {
@@ -46,11 +46,16 @@ public class CommentDAO {
         }
     }
 
-    public ArrayList<Comment> getAllCommentsByUserID(String idUser) {
+    public ArrayList<Comment> getAllCommentsByUserID(String idPost, String idUser) {
         try {
-            String query = "SELECT * FROM comment WHERE iduser = ? ORDER BY datecomment";
-            ResultSet rs = DBHelper.query(query, idUser);
             ArrayList<Comment> comments = new ArrayList<>();
+            String query = "SELECT * FROM comment WHERE idpost = ? AND iduser = ? ORDER BY datecomment DESC";
+            ResultSet rs = DBHelper.query(query, idPost, idUser);
+            while(rs.next()) {
+                comments.add(getComment(rs));
+            }
+            query = "SELECT * FROM comment WHERE idpost = ? AND iduser != ? ORDER BY datecomment DESC";
+            rs = DBHelper.query(query, idPost, idUser);
             while(rs.next()) {
                 comments.add(getComment(rs));
             }

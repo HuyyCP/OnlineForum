@@ -1,5 +1,6 @@
 package Model.DAO;
 
+import DTO.BestPostDTO;
 import Helper.DBHelper;
 import Model.Bean.Post;
 import java.sql.*;
@@ -12,7 +13,7 @@ public class PostDAO {
             Post post = new Post();
             post.setIdPost(rs.getString("idpost"));
             post.setTitle(rs.getString("title"));
-            post.setDateCreated(rs.getDate("datecreate"));
+            post.setDateCreated(rs.getTimestamp("datecreate"));
             post.setIdSubSubject(rs.getString("idsubject"));
             post.setIdUser(rs.getString("iduser"));
             post.setContent(rs.getString("content"));
@@ -35,12 +36,45 @@ public class PostDAO {
         }
     }
 
+    public int getNumPost() {
+        try {
+            String query = "SELECT COUNT(*) as numPost FROM post ";
+            ResultSet rs = DBHelper.query(query);
+            rs.next();
+            return rs.getInt("numPost");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Post getPostByID(String idPost) {
         try {
             String query = "SELECT * FROM post WHERE idpost = ?";
             ResultSet rs = DBHelper.query(query, idPost);
             rs.next();
             return getPost(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public BestPostDTO getBestPost() {
+        try {
+            String query = "select post.idpost, post.title, user.iduser, user.name, count(*) as numComment " +
+                            "from post left join comment on post.idpost = comment.idpost " +
+                            "          left join user on post.iduser = user.iduser " +
+                            "group by post.idpost " +
+                            "order by numComment desc " +
+                            "limit 1";
+            ResultSet rs = DBHelper.query(query);
+            rs.next();
+            BestPostDTO post = new BestPostDTO();
+            post.setIdPost(rs.getString("idpost"));
+            post.setTitle(rs.getString("title"));
+            post.setIdUser(rs.getString("iduser"));
+            post.setName(rs.getString("name"));
+            post.setNumComments(rs.getInt("numComment"));
+            return post;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
