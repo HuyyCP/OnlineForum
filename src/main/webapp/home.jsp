@@ -83,7 +83,7 @@
                                     for (int k = 0; k < lastestPosts.size(); k++) {
                                         if (lastestPosts.get(k).getIdSubSubject().equals(listSubSubject.get(j).getIdSubject())) {
                                 %>
-                                <small><a href="/post/<%=lastestPosts.get(k).getIdPost()%>"><b><%=lastestPosts.get(k).getTitle()%></b></a>
+                                <small><a href="/post/<%=lastestPosts.get(k).getIdPost()%>/1"><b><%=lastestPosts.get(k).getTitle()%></b></a>
                                     by <%=lastestPosts.get(k).getUser().getName()%>
                                     <br>on <%=lastestPosts.get(k).getDateCreated()%>
                                 </small>
