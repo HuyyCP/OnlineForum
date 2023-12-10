@@ -11,31 +11,33 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="header.jsp"/>
     <%
         User userLogin = (User)session.getAttribute("user");
     %>
 
-    <form action="../user/update/<%=userLogin.getIdUser()%>" method="post">
-        <table>
-            <tr>
-                <td>Tên người dùng</td>
-                <td><input type="text" value="<%=userLogin.getName()%>" name="name"></td>
-            </tr>
-            <tr>
-                <td>Email</td>
-                <td><input type="email" value="<%=userLogin.getEmail()%>" name="email" readonly></td>
-            </tr>
-            <tr>
-                <td>Ngày sinh</td>
-                <td><input type="date" value="<%=userLogin.getDob()%>" name="dateofbirth"></td>
-            </tr>
-            <tr>
-                <td>Số điện thoại</td>
-                <td><input type="tel" value="<%=userLogin.getPhoneNumber()%>" name="phonenumber"></td>
-            </tr>
-        </table>
-        <input type="submit" value="Cập nhật">
-
-    </form>
+    <!-- Bootstrap form -->
+    <div class="container my-4">
+        <form action="../user/update/<%=userLogin.getIdUser()%>" method="post" class="m-3">
+            <div class="mb-3">
+                <label for="name" class="form-label">Tên người dùng</label>
+                <input type="text" class="form-control" id="name" value="<%=userLogin.getName()%>" name="name">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" value="<%=userLogin.getEmail()%>" name="email" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="dateofbirth" class="form-label">Ngày sinh</label>
+                <input type="date" class="form-control" id="dateofbirth" value="<%=userLogin.getDob()%>" name="dateofbirth">
+            </div>
+            <div class="mb-3">
+                <label for="phonenumber" class="form-label">Số điện thoại</label>
+                <input type="tel" class="form-control" id="phonenumber" value="<%=userLogin.getPhoneNumber()%>" name="phonenumber">
+            </div>
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+        </form>
+    </div>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

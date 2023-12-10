@@ -104,31 +104,29 @@
         <% if(user != null) { %>
             <form method="POST" action="/comment/create">
                 <textarea name="message" id="message" placeholder="Comment here"></textarea>
-                <script>
-                    tinymce.init({
-                        selector: 'textarea#message',
-                        plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
-                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                        tinycomments_mode: 'embedded',
-                        tinycomments_author: 'Author name',
-                        mergetags_list: [
-                            { value: 'First.Name', title: 'First Name' },
-                            { value: 'Email', title: 'Email' },
-                        ],
-                        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-                    });
-                </script>
                 <input type="hidden" value="<%=post.getIdPost()%>" name="idPost">
                 <input type="hidden" value="<%=user.getIdUser()%>" name="idUser">
-                <button class="btn btn-primary" type="submit" value="" name="submitBtn">Bình luận</button>
+                <button class="btn btn-primary mt-2" type="submit" value="" name="submitBtn">Bình luận</button>
             </form>
         <% } else { %>
                 <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập để bình luận</button>
         <% } %>
 
     </div>
-    <footer>
-        <span>&copy;  Selmi Abderrahim | All Rights Reserved</span>
-    </footer>
+    <jsp:include page="footer.jsp"/>
+    <script>
+      tinymce.init({
+        selector: 'textarea#message',
+        plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        mergetags_list: [
+          { value: 'First.Name', title: 'First Name' },
+          { value: 'Email', title: 'Email' },
+        ],
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+      });
+    </script>
 </body>
 </html>

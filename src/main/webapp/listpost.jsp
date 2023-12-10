@@ -63,7 +63,7 @@
                     <tr>
                         <th scope="col">Status</th>
                         <th scope="col">Subjects</th>
-                        <th scope="col">Replies/Views</th>
+                        <th scope="col">Replies</th>
                         <th scope="col">Last Reply</th>
                     </tr>
                     </thead>
@@ -124,31 +124,22 @@
             </nav>
         </div>
 
-        <%--        <div class="col-md-4">--%>
-        <%--            <div class="mb-4">--%>
-        <%--                <h5>Popular Topics</h5>--%>
-        <%--                <ul class="list-group">--%>
-        <%--                    <!-- Repeat for each popular topic -->--%>
-        <%--                    <li class="list-group-item">--%>
-        <%--                        <a href="#">Topic Title</a>--%>
-        <%--                    </li>--%>
-        <%--                    <!-- More items here -->--%>
-        <%--                </ul>--%>
-        <%--            </div>--%>
-        <%--        </div>--%>
+                <div class="col-md-4">
+                    <div class="mb-4">
+                        <h5>Popular Topics</h5>
+                        <ul class="list-group">
+                            <!-- Repeat for each popular topic -->
+                            <li class="list-group-item">
+                                <a href="#">Topic Title</a>
+                            </li>
+                            <!-- More items here -->
+                        </ul>
+                    </div>
+                </div>
     </div>
 </main>
 
-<footer class="bg-dark text-white text-center text-lg-start">
-    <div class="container p-4">
-        <h5 class="text-uppercase mb-4">MyForum - Stats <i class="fa fa-bar-chart"></i></h5>
-        <span>5,369 Posts in 48 Topics by 8,124 Members. Latest post: <a href="#" class="text-white"><b>Random
-            post</b></a> on Dec 15 2021 By <a href="#" class="text-white">RandomUser</a></span>
-    </div>
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        &copy; Selmi Abderrahim | All Rights Reserved
-    </div>
-</footer>
+<jsp:include page="footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -6,6 +6,12 @@
     <title>Header</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        a {
+          text-decoration: none;
+          color: #0d6efd;
+        }
+    </style>
 </head>
 <body>
 

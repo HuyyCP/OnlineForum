@@ -1,7 +1,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Model.Bean.Subject" %>
 <%@ page import="Model.Bean.SubSubject" %>
-<%@ page import="DTO.PostDTO" %><%--
+<%@ page import="DTO.PostDTO" %>
+<%@ page import="static Helper.Util.timeAgo" %><%--
   Created by IntelliJ IDEA.
   User: ACER
   Date: 04-Dec-23
@@ -20,6 +21,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .post-title {
+        max-width: 300px;
+      }
+    </style>
 </head>
 <jsp:include page="header.jsp"/>
 <body>
@@ -67,9 +73,9 @@
                                     if (listMainjects.get(i).getIdSubject().equals(listSubSubject.get(j).getIdParentSubject())) {
                             %>
                             <div class="col-md-1 text-center">
-                                <i class="fa fa-car fa-2x"></i>
+                                <i class="fa fa-comments-o fa-2x"></i>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-5">
                                 <h5>
                                     <a href="subject/<%=listSubSubject.get(j).getIdSubject()%>/1"><%=listSubSubject.get(j).getSubjectName()%>
                                     </a></h5>
@@ -77,30 +83,32 @@
                             <div class="col-md-2 text-center">
                                 <span> 2K Posts</span>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <%
                                     boolean check = true;
                                     for (int k = 0; k < lastestPosts.size(); k++) {
                                         if (lastestPosts.get(k).getIdSubSubject().equals(listSubSubject.get(j).getIdSubject())) {
                                 %>
-                                <small><a href="/post/<%=lastestPosts.get(k).getIdPost()%>"><b><%=lastestPosts.get(k).getTitle()%></b></a>
-                                    by <%=lastestPosts.get(k).getUser().getName()%>
-                                    <br>on <%=lastestPosts.get(k).getDateCreated()%>
-                                </small>
+                                <div class="post-info">
+                                    <a href="/post/<%= lastestPosts.get(k).getIdPost() %>/1" class="text-truncate d-block post-title">
+                                        <strong><%= lastestPosts.get(k).getTitle() %></strong>
+                                    </a>
+                                    <div class="post-author small text-muted">
+                                        by <%= lastestPosts.get(k).getUser().getName() %>
+                                        on <%= timeAgo(lastestPosts.get(k).getDateCreated()) %>
+                                    </div>
+                                </div>
                                 <%
                                             check = false;
                                             break;
                                         }
                                     }
-
                                     if (check) {
                                 %>
-                                <small> No post available
-                                </small>
+                                <small> No post available </small>
                                 <%
                                     }
                                 %>
-
                             </div>
                             <%
                                     }
@@ -114,26 +122,10 @@
         <%
             }
         %>
-
-
     </div>
-    <!-- Forum Sections -->
-
-
-    <!-- New Topic Button -->
-
 </div>
 
-<footer class="bg-dark text-white text-center text-lg-start">
-    <div class="container p-4">
-        <h5 class="text-uppercase mb-4">MyForum - Stats <i class="fa fa-bar-chart"></i></h5>
-        <span>5,369 Posts in 48 Topics by 8,124 Members. Latest post: <a href="#" class="text-white"><b>Random
-            post</b></a> on Dec 15 2021 By <a href="#" class="text-white">RandomUser</a></span>
-    </div>
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        &copy; Selmi Abderrahim | All Rights Reserved
-    </div>
-</footer>
+<jsp:include page="footer.jsp"/>
 
 <!-- Forum Info -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
