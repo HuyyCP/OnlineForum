@@ -46,14 +46,14 @@ public class CommentController extends HttpServlet {
         comment.setIdPost(idPost);
         comment.setIdUser(idUser);
         commentBO.addComment(comment);
-        resp.sendRedirect("/post/" + idPost);
+        resp.sendRedirect("/post/" + idPost + "/1");
     }
 
     private void deleteComment(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String idComment = req.getParameter("idComment");
         String idPost = req.getParameter("idPost");
         commentBO.deleteComment(idComment);
-        resp.sendRedirect("/post/" + idPost);
+        resp.sendRedirect("/post/" + idPost + "/1");
     }
 
 }

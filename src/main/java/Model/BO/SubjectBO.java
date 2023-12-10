@@ -29,6 +29,10 @@ public class SubjectBO {
         return subjectDAO.getSubjectsStat();
     }
 
+    public Subject getSubjectByID(String idSubject) {
+        return subjectDAO.getSubjectByID(idSubject);
+    }
+
     public void addSubject(Subject subject) {
         subject.setIdSubject(UUID.randomUUID().toString());
         subjectDAO.addSubject(subject);

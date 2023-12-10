@@ -1,11 +1,11 @@
 package Model.BO;
 
-import DTO.CommentDTO;
 import Model.Bean.Comment;
 import Model.DAO.CommentDAO;
+import Model.DAO.PostDAO;
 import Model.DAO.UserDAO;
 
-import java.sql.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -14,47 +14,44 @@ public class CommentBO {
 
     private CommentDAO commentDAO;
     private UserDAO userDAO;
-
+    private PostDAO postDAO;
+    private UserBO userBO;
+    private PostBO postBO;
     public CommentBO() {
         commentDAO = new CommentDAO();
         userDAO = new UserDAO();
+        postDAO = new PostDAO();
+        userBO = new UserBO();
+        postBO = new PostBO();
     }
 
-    public ArrayList<CommentDTO> getAllCommentsByPostID(String idPost) {
+    public ArrayList<Comment> getAllCommentsByPostID(String idPost, int pageLimit, int pageIndex) {
         ArrayList<Comment> comments = commentDAO.getAllCommentsByPostID(idPost);
-        ArrayList<CommentDTO> commentDTOS = new ArrayList<>();
         for (Comment comment : comments) {
-            CommentDTO commentDTO = new CommentDTO();
-            commentDTO.setIdcomment(comment.getIdcomment());
-            commentDTO.setMessage(comment.getMessage());
-            commentDTO.setDateComment(comment.getDateComment());
-            commentDTO.setIdPost(comment.getIdPost());
-            commentDTO.setIdUser(comment.getIdUser());
-            commentDTO.setUser(userDAO.getUserByID(comment.getIdUser()));
-            commentDTOS.add(commentDTO);
+            comment.setUser(userBO.getUserById(comment.getIdUser()));
+            comment.setPost(postBO.getPostByID(comment.getIdPost()));
         }
-        return commentDTOS;
+        comments.subList((pageIndex - 1) * pageLimit, comments.size() < pageIndex * pageLimit ? comments.size() : pageIndex * pageLimit);
+        return comments;
     }
 
-    public ArrayList<CommentDTO> getAllCommentsByUserID(String idUser) {
-        ArrayList<Comment> comments = commentDAO.getAllCommentsByUserID(idUser);
-        ArrayList<CommentDTO> commentDTOS = new ArrayList<>();
+    public ArrayList<Comment> getAllCommentsByUserID(String idPost, String idUser, int pageLimit, int pageIndex) {
+        ArrayList<Comment> comments = commentDAO.getAllCommentsByUserID(idPost, idUser);
         for (Comment comment : comments) {
-            CommentDTO commentDTO = new CommentDTO();
-            commentDTO.setIdcomment(comment.getIdcomment());
-            commentDTO.setMessage(comment.getMessage());
-            commentDTO.setDateComment(comment.getDateComment());
-            commentDTO.setIdPost(comment.getIdPost());
-            commentDTO.setIdUser(comment.getIdUser());
-            commentDTO.setUser(userDAO.getUserByID(comment.getIdUser()));
-            commentDTOS.add(commentDTO);
+            comment.setUser(userBO.getUserById(comment.getIdUser()));
+            comment.setPost(postBO.getPostByID(comment.getIdPost()));
         }
-        return commentDTOS;
+        comments.subList((pageIndex - 1) * pageLimit, comments.size() < pageIndex * pageLimit ? comments.size() : pageIndex * pageLimit);
+        return comments;
+    }
+
+    public int getAmountCommentsByPostID(String idPost) {
+        return commentDAO.getAmountCommentsByPostID(idPost);
     }
 
     public void addComment(Comment comment) {
         comment.setIdcomment(UUID.randomUUID().toString());
-        comment.setDateComment(new Date());
+        comment.setDateComment(new Timestamp(System.currentTimeMillis()));
         commentDAO.addComment(comment);
     }
 
@@ -66,4 +63,11 @@ public class CommentBO {
         commentDAO.deleteComment(idComment);
     }
 
+    public ArrayList<Comment> getLastCommentForEachPost(String idSubSubject) {
+        ArrayList<Comment> comments = commentDAO.getLastCommentForEachPost(idSubSubject);
+        for (Comment comment : comments) {
+            comment.setUser(userDAO.getUserByID(comment.getIdUser()));
+        }
+        return comments;
+    }
 }

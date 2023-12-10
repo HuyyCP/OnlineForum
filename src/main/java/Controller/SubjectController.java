@@ -1,6 +1,7 @@
 package Controller;
 
 import DTO.SubjectStatDTO;
+import Model.BO.CommentBO;
 import Model.BO.PostBO;
 import Model.BO.SubSubjectBO;
 import Model.BO.SubjectBO;
@@ -20,6 +21,8 @@ import java.util.List;
 
 @WebServlet({"/subject/*"})
 public class SubjectController extends HttpServlet {
+    SubjectBO subjectBO = new SubjectBO();
+
     private void changeTo(String url, HttpServletRequest request, HttpServletResponse response) {
         try {
             RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
@@ -42,20 +45,16 @@ public class SubjectController extends HttpServlet {
         String path = req.getPathInfo();
         switch (path) {
             case "/statistics": {
-                SubjectBO subjectBO = new SubjectBO();
                 ArrayList<SubjectStatDTO> subjectStatDTOs = subjectBO.getSubjectsStat();
                 replyBack(resp, subjectStatDTOs);
                 break;
             } case "/all-subjects": {
-                SubjectBO subjectBO = new SubjectBO();
                 ArrayList<Subject> subjects = subjectBO.getAllSubjects();
                 replyBack(resp, subjects);
             } default : {
                 doPost(req, resp);
             }
         }
-
-
     }
 
     @Override
@@ -71,10 +70,12 @@ public class SubjectController extends HttpServlet {
         Integer index = Integer.parseInt(params[2]);
 
         PostBO postBO = new PostBO();
+        CommentBO commentBO = new CommentBO();
         req.setAttribute("listPost", postBO.getPostsPaging(IDSubSubject, 10, index));
         req.setAttribute("numPages", (int)Math.ceil(((double)postBO.getNumPost(IDSubSubject)) / 10));
         SubSubjectBO subSubjectBO = new SubSubjectBO();
         req.setAttribute("subSubject", subSubjectBO.getSubject(IDSubSubject));
+        req.setAttribute("lastComments", commentBO.getLastCommentForEachPost(IDSubSubject));
         changeTo("/listpost.jsp", req, resp);
     }
 }

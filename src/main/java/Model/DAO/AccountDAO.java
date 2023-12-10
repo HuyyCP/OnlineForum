@@ -2,6 +2,8 @@ package Model.DAO;
 
 import Helper.DBHelper;
 import Model.Bean.Account;
+import Model.Bean.SubSubject;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,6 +21,32 @@ public class AccountDAO {
                 rs.close();
             }
             return res;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Account getAccount(ResultSet rs) {
+        try {
+            Account account = new Account();
+            account.setIdaccount(rs.getString("idaccount"));
+            account.setUsername(rs.getString("username"));
+            account.setPassword(rs.getString("password"));
+            account.setIduser(rs.getString("iduser"));
+            return account;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Account getAccountByID(String idAccount) {
+        try {
+            String query = "SELECT * FROM account WHERE idaccount = ?";
+            ResultSet rs = DBHelper.query(query, idAccount);
+            if(rs.next()) {
+                return getAccount(rs);
+            }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

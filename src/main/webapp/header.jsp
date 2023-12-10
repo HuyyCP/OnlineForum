@@ -21,14 +21,14 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid px-5">
-        <a class="navbar-brand" href="#">Logo</a>
+        <a class="navbar-brand" href="/">Logo</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Trang chủ</a>
+                    <a class="nav-link active" aria-current="page" href="/">Trang chủ</a>
                 </li>
 
             </ul>
@@ -39,8 +39,11 @@
             </div>
             <% } else { %>
             <div class="ms-auto">
+                <% if(userLogin.getRole().getRoleName().equals("Admin")) { %>
+                    <a href="/admin" class="btn btn-primary">Admin</a>
+                <% } %>
+                <a href="/user/<%=userLogin.getIdUser()%>" class="btn btn-primary">Profile</a>
                 <a href="/logout" class="btn btn-outline-danger">Logout</a>
-                <a href="/user/<%=userLogin.getIdUser()%>" class="btn btn-outline-danger">Profile</a>
             </div>
             <% } %>
         </div>

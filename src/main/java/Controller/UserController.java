@@ -2,6 +2,7 @@ package Controller;
 
 import Model.BO.UserBO;
 import Model.Bean.User;
+import com.google.gson.Gson;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import java.util.Date;
 
 @WebServlet({"/user/*", "/user/update/*"})
 public class UserController extends HttpServlet {
+    private UserBO userBO = new UserBO();
 
     private void changeTo(String url, HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -27,13 +29,31 @@ public class UserController extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+    private void replyBack(HttpServletResponse resp, Object data) throws IOException {
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        resp.setContentType("application/json");
+        resp.getWriter().write(json);
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String path = req.getPathInfo();
+        System.out.println(path);
+        switch (path) {
+            case "/count" : {
+                replyBack(resp, userBO.getNumUser());
+                break;
+            } case "/best": {
+                replyBack(resp, userBO.getBestUser());
+                break;
+            } default: {
+                doPost(req, resp);
+                break;
+            }
+        }
+    }
 
-    private UserBO userBO = new UserBO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

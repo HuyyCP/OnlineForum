@@ -1,13 +1,16 @@
 package Model.Bean;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Comment {
     private String idComment;
     private String message;
-    private Date dateComment;
+    private Timestamp dateComment;
     private String idPost;
     private String idUser;
+    private Post post;
+    private User user;
 
     public String getIdcomment() {
         return idComment;
@@ -25,11 +28,11 @@ public class Comment {
         this.message = message;
     }
 
-    public Date getDateComment() {
+    public Timestamp getDateComment() {
         return dateComment;
     }
 
-    public void setDateComment(Date dateComment) {
+    public void setDateComment(Timestamp dateComment) {
         this.dateComment = dateComment;
     }
 
@@ -47,5 +50,21 @@ public class Comment {
 
     public void setIdUser(String idUser) {
         this.idUser = idUser;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

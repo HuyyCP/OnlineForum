@@ -18,6 +18,22 @@ public class RoleDAO {
         }
     }
 
+    public Role getRoleByID(String idRole) {
+        try {
+            String query = "SELECT * FROM role WHERE idrole = ?";
+            ResultSet rs = DBHelper.query(query, idRole);
+            if(rs.next()) {
+                Role role = new Role();
+                role.setIdRole(rs.getString("idrole"));
+                role.setRoleName(rs.getString("rolename"));
+                return role;
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addRole(Role role) {
         String query = "INSERT INTO role (idrole, rolename) VALUES (?, ?)";
         DBHelper.execute(query, role.getIdRole(), role.getRoleName());

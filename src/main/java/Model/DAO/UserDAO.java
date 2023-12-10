@@ -1,5 +1,6 @@
 package Model.DAO;
 
+import DTO.BestUserDTO;
 import Helper.DBHelper;
 import Model.Bean.User;
 import java.sql.ResultSet;
@@ -38,12 +39,44 @@ public class UserDAO {
         }
     }
 
+    public int getNumUser() {
+        try {
+            String query = "SELECT COUNT(*) as numUser FROM user ";
+            ResultSet rs = DBHelper.query(query);
+            rs.next();
+            return rs.getInt("numUser");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public User getUserByID(String idUser) {
         try {
             String query = "SELECT * FROM user where iduser = ?";
             ResultSet rs = DBHelper.query(query, idUser);
             rs.next();
             return getUser(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public BestUserDTO getBestUser() {
+        try {
+            String query = "select user.iduser, user.name, count(distinct post.idpost) as numPost, count(distinct comment.idcomment) as numComment\n" +
+                            "from user left join post on user.iduser = post.iduser\n" +
+                            "\t\t\t\t\tleft join comment on user.iduser = comment.iduser\n" +
+                            "group by user.iduser\n" +
+                            "order by (count(distinct post.idpost) + count(distinct comment.idcomment)) desc\n" +
+                            "limit 1;";
+            ResultSet rs = DBHelper.query(query);
+            rs.next();
+            BestUserDTO user = new BestUserDTO();
+            user.setIdUser(rs.getString("iduser"));
+            user.setName(rs.getString("name"));
+            user.setNumPost(rs.getInt("numPost"));
+            user.setNumComments(rs.getInt("numComment"));
+            return user;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

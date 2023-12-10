@@ -5,6 +5,7 @@ public class Account {
     private String username;
     private String password;
     private String idUser;
+    private User user;
 
     public String getIdaccount() {
         return idAccount;
@@ -36,5 +37,13 @@ public class Account {
 
     public void setIduser(String idUser) {
         this.idUser = idUser;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
