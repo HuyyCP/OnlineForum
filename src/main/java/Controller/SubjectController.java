@@ -67,15 +67,34 @@ public class SubjectController extends HttpServlet {
         }
 
         String IDSubSubject = params[1];
+        if(IDSubSubject.charAt(0) == '%'){
+            IDSubSubject = IDSubSubject.substring(1);
+        }
         Integer index = Integer.parseInt(params[2]);
 
         PostBO postBO = new PostBO();
         CommentBO commentBO = new CommentBO();
-        req.setAttribute("listPost", postBO.getPostsPaging(IDSubSubject, 10, index));
-        req.setAttribute("numPages", (int)Math.ceil(((double)postBO.getNumPost(IDSubSubject)) / 10));
+
+
+        if(req.getParameter("text") != null){
+            String text = (String)req.getParameter("text");
+            if(text.isEmpty()){
+                resp.sendRedirect("/subject" + "/" + IDSubSubject + "/1");
+                return;
+            }
+            req.setAttribute("listPost", postBO.getPostsPagingFilter(IDSubSubject, 10, index, text));
+            req.setAttribute("numPages", (int)Math.ceil(((double)postBO.getNumPostFilter(IDSubSubject, text)) / 10));
+        }else{
+            req.setAttribute("listPost", postBO.getPostsPaging(IDSubSubject, 10, index));
+            req.setAttribute("numPages", (int)Math.ceil(((double)postBO.getNumPost(IDSubSubject)) / 10));
+        }
+
+        req.setAttribute("lastComments", commentBO.getLastCommentForEachPost(IDSubSubject));
+
+
         SubSubjectBO subSubjectBO = new SubSubjectBO();
         req.setAttribute("subSubject", subSubjectBO.getSubject(IDSubSubject));
-        req.setAttribute("lastComments", commentBO.getLastCommentForEachPost(IDSubSubject));
+
         changeTo("/listpost.jsp", req, resp);
     }
 }

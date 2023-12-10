@@ -3,6 +3,7 @@ package Model.DAO;
 import DTO.BestPostDTO;
 import Helper.DBHelper;
 import Model.Bean.Post;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -22,12 +23,13 @@ public class PostDAO {
             throw new RuntimeException(e);
         }
     }
+
     public ArrayList<Post> getAllPostsBySubjectID(String idSubject) {
         try {
             String query = "SELECT * FROM post WHERE idsubject = ? ORDER BY datecreate DESC";
             ResultSet rs = DBHelper.query(query, idSubject);
             ArrayList<Post> posts = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 posts.add(getPost(rs));
             }
             return posts;
@@ -61,11 +63,11 @@ public class PostDAO {
     public BestPostDTO getBestPost() {
         try {
             String query = "select post.idpost, post.title, user.iduser, user.name, count(*) as numComment " +
-                            "from post left join comment on post.idpost = comment.idpost " +
-                            "          left join user on post.iduser = user.iduser " +
-                            "group by post.idpost " +
-                            "order by numComment desc " +
-                            "limit 1";
+                    "from post left join comment on post.idpost = comment.idpost " +
+                    "          left join user on post.iduser = user.iduser " +
+                    "group by post.idpost " +
+                    "order by numComment desc " +
+                    "limit 1";
             ResultSet rs = DBHelper.query(query);
             rs.next();
             BestPostDTO post = new BestPostDTO();
@@ -100,7 +102,7 @@ public class PostDAO {
             String query = "SELECT count(*) FROM post WHERE idsubject = ?";
             ResultSet rs = DBHelper.query(query, idSubSubject);
 
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt(1);
             }
 
@@ -124,7 +126,7 @@ public class PostDAO {
                     ") pm ON p.idsubject = pm.idsubject AND p.datecreate = pm.max_date";
             ResultSet rs = DBHelper.query(query);
             ArrayList<Post> posts = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 posts.add(getPost(rs));
             }
             return posts;
@@ -133,6 +135,35 @@ public class PostDAO {
         }
     }
 
+    public ArrayList<Post> getAllPostsBySubjectIDFilter(String idSubSubject, String text) {
+        try {
+            String query = "SELECT * FROM post WHERE idsubject = ? AND title LIKE '%" + text + "%' ORDER BY datecreate DESC";
+            ResultSet rs = DBHelper.query(query, idSubSubject);
+            ArrayList<Post> posts = new ArrayList<>();
+            while (rs.next()) {
+                posts.add(getPost(rs));
+            }
+            return posts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Integer getNumPostFilter(String idSubSubject, String text) {
+        try {
+            String query = "SELECT count(*) FROM post WHERE idsubject = ? AND title LIKE '%" + text + "%'" ;
+            ResultSet rs = DBHelper.query(query, idSubSubject);
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
     public void updatePost(Post post) {
         String query = "UPDATE post SET title = ?, content = ?, idsubject = ? WHERE idpost = ?";
         DBHelper.execute(query, post.getTitle(), post.getContent(), post.getIdSubSubject(), post.getIdPost());

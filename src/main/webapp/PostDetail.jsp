@@ -65,7 +65,7 @@
                              class="img-fluid rounded-circle" style="width: 60px; height: 60px;">
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <%=post.getUser().getName()%> - <span class="text-muted"><%=post.getUser().getRole().getRoleName()%></span><br>
+                        <a href="/user/<%=post.getIdUser()%>"><%=post.getUser().getName()%></a> - <span class="text-muted"><%=post.getUser().getRole().getRoleName()%></span><br>
                         at <%=formatter.format(post.getDateCreated())%>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                                  class="img-fluid rounded-circle" style="width: 60px; height: 60px;">
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <%=comment.getUser().getName()%> - <span class="text-muted"><%=comment.getUser().getRole().getRoleName()%></span><br>
+                            <a href="/user/<%=comment.getIdUser()%>"><%=comment.getUser().getName()%></a> - <span class="text-muted"><%=comment.getUser().getRole().getRoleName()%></span><br>
                             at <%=formatter.format(comment.getDateComment())%>
                         </div>
                     </div>
