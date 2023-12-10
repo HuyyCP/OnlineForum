@@ -86,12 +86,12 @@
     %>
 
     <div class="container border">
-        <div class="row">
+        <div class="row p-3">
             <div id="numUser" class="col border mr-2"></div>
             <div id="numSubject" class="col border mr-2"></div>
             <div id="numPost" class="col border"></div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3 p-3">
             <div class="col-8">
                 <div class="row">
                     <div class="col-12">

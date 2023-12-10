@@ -2,7 +2,8 @@
 <%@ page import="Model.Bean.Post" %>
 <%@ page import="DTO.PostDTO" %>
 <%@ page import="Model.Bean.SubSubject" %>
-<%@ page import="DTO.CommentDTO" %>
+<%@ page import="Model.Bean.Comment" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html lang="vi">
 
@@ -17,8 +18,9 @@
 <jsp:include page="header.jsp"/>
 <body>
 <%
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     SubSubject subject = (SubSubject) request.getAttribute("subSubject");
-    ArrayList<CommentDTO> lastComment = (ArrayList<CommentDTO>) request.getAttribute("lastComments");
+    ArrayList<Comment> lastComment = (ArrayList<Comment>) request.getAttribute("lastComments");
 %>
 <main class="container my-4">
     <div class="row">
@@ -81,7 +83,7 @@
                             for (int j = 0; j < lastComment.size(); j++) {
                                 if (lastComment.get(j).getIdPost().equals(listPost.get(i).getIdPost())) {
                         %>
-                        <td><%=lastComment.get(j).getDateComment()%><br>By <a
+                        <td><%=formatter.format(lastComment.get(j).getDateComment())%><br>By <a
                                 href="#"><%=lastComment.get(j).getUser().getName()%>
                         </a></td>
                         <%

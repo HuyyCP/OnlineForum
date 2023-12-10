@@ -96,7 +96,7 @@ public class PostBO {
             postDTO.setDateCreated(post.getDateCreated());
             postDTO.setIdSubSubject(post.getIdSubSubject());
             postDTO.setIdUser(post.getIdUser());
-            postDTO.setMemberName(userDAO.getUserByID(post.getIdUser()).getName());
+            postDTO.setUser(userDAO.getUserByID(post.getIdUser()));
             postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
             postDTOs.add(postDTO);
         }
