@@ -85,7 +85,7 @@
         ArrayList<Subject> subjects = (ArrayList<Subject>) request.getAttribute("subjects");
     %>
 
-    <div class="container border">
+    <div class="container border mt-4">
         <div class="row p-3">
             <div id="numUser" class="col border mr-2"></div>
             <div id="numSubject" class="col border mr-2"></div>
@@ -272,7 +272,12 @@
                 const response = await fetch("/user/best");
                 const data = await response.json();
                 console.log(JSON.stringify(data));
-                document.getElementById("bestUser").textContent = "Thành viên nổi bật: " + data.name;
+                // document.getElementById("bestUser").innerHTML = '<p>Thành viên nổi bật: <a href="/user/' + data.idUser + '">' + data.name + '</a></p>' +
+                //                                                     '<p> Bài viết: ' + data.numPost + ' </p>' +
+                //                                                     '<p>Bình luận: ' + data.numComments + '</p>';
+                document.getElementById("bestUser").innerHTML = '<p>Thành viên nổi bật: <a href="#">' + data.name + '</a></p>' +
+                                                                '<p> Bài viết: ' + data.numPost + ' </p>' +
+                                                                '<p>Bình luận: ' + data.numComments + '</p>';
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -285,7 +290,12 @@
                 const response = await fetch("/subsubject/best");
                 const data = await response.json();
                 console.log(JSON.stringify(data));
-                document.getElementById("bestSubject").textContent = "Chủ đề nổi bật: " + data.subjectName;
+                // document.getElementById("bestSubject").innerHTML = '<p>Chủ đề nổi bật: <a href="/subject/' + data.idSubject + '/1">' + data.subjectName + '</a></p>' +
+                //                                                     '<p> Bài viết: ' + data.numPosts + ' </p>' +
+                //                                                     '<p>Bình luận: ' + data.numComments + '</p>';
+                document.getElementById("bestSubject").innerHTML = '<p>Chủ đề nổi bật: <a href="#">' + data.subjectName + '</a></p>' +
+                                                                    '<p> Bài viết: ' + data.numPosts + ' </p>' +
+                                                                    '<p>Bình luận: ' + data.numComments + '</p>';
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -298,7 +308,12 @@
                 const response = await fetch("/post/best");
                 const data = await response.json();
                 console.log(JSON.stringify(data));
-                document.getElementById("bestPost").textContent = "Bài viết nổi bật: " + data.title;
+                // document.getElementById("bestPost").innerHTML = '<p>Bài viết nổi bật: <a href="/post/' + data.idPost + '/1">' + data.title + '</a></p>' +
+                //                                                 '<p>Người đăng: <a href="/user/' + data.idUser + '">' + data.name + '</a></p>' +
+                //                                                 '<p>Bình luận: ' + data.numComments + '</p>';
+                document.getElementById("bestPost").innerHTML = '<p>Bài viết nổi bật: <a href="/post/' + data.idPost + '/1">' + data.title + '</a></p>' +
+                                                                '<p>Người đăng: <a href="#">' + data.name + '</a></p>' +
+                                                                '<p>Bình luận: ' + data.numComments + '</p>';
             } catch (error) {
                 console.error('Error:', error);
             }
