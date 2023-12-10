@@ -94,7 +94,6 @@ public class UserController extends HttpServlet {
     }
 
     private void showProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         changeTo("/profile.jsp", req, resp);
     }
 }

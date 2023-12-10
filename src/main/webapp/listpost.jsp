@@ -26,15 +26,17 @@
     <div class="row">
         <div class="col-md-8">
             <div class="mb-3">
+                <form method="post" action="/subject/<%=subject.getIdSubject()%>/1/filter">
                 <div class="input-group">
                     <select class="form-select" id="inputGroupSelect04">
                         <option selected>Everything</option>
                         <option value="1">Titles</option>
                         <option value="2">Descriptions</option>
                     </select>
-                    <input type="text" class="form-control" placeholder="search ...">
-                    <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
+                    <input type="text" class="form-control" placeholder="search ..." name="text">
+                    <button class="btn btn-outline-secondary" type="button"><input type="submit"><i class="fa fa-search"></i></button>
                 </div>
+                </form>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <% if (session.getAttribute("user") != null) { %>

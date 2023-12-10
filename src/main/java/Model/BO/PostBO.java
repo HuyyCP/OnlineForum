@@ -127,4 +127,35 @@ public class PostBO {
     public Integer getNumPost(String idSubSubject) {
         return postDAO.getNumPost(idSubSubject);
     }
+
+    public ArrayList<PostDTO> getPostsPagingFilter(String idSubSubject, Integer maxPage, Integer numPage, String text) {
+        ArrayList<Post> posts = postDAO.getAllPostsBySubjectIDFilter(idSubSubject, text);
+        ArrayList<PostDTO> postDTOs = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostDTO postDTO = new PostDTO();
+            postDTO.setIdPost(post.getIdPost());
+            postDTO.setTitle(post.getTitle());
+            postDTO.setDateCreated(post.getDateCreated());
+            postDTO.setIdSubSubject(post.getIdSubSubject());
+            postDTO.setIdUser(post.getIdUser());
+            postDTO.setUser(userDAO.getUserByID(post.getIdUser()));
+            postDTO.setNumComments(commentDAO.getAmountCommentsByPostID(post.getIdPost()));
+            postDTOs.add(postDTO);
+        }
+
+        ArrayList<PostDTO> postDTOsPaging = new ArrayList<>();
+
+        for (int i = (numPage - 1) * maxPage; i < postDTOs.size() && i < numPage * maxPage; i++) {
+            postDTOsPaging.add(postDTOs.get(i));
+        }
+
+        System.out.println(postDTOsPaging.size());
+
+        return postDTOsPaging;
+    }
+
+    public Integer getNumPostFilter(String idSubSubject, String text) {
+        return postDAO.getNumPostFilter(idSubSubject, text);
+    }
 }
