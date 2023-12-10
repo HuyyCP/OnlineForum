@@ -26,9 +26,11 @@ public class MainController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(request.getParameter("IDSubSubject") == null){
             SubjectBO subjectBO = new SubjectBO();
+            PostBO postBO = new PostBO();
             request.setAttribute("listMainSubject", subjectBO.getAllSubjects());
             SubSubjectBO subSubjectBO = new SubSubjectBO();
             request.setAttribute("listSubSubject", subSubjectBO.getAllSubjects());
+            request.setAttribute("lastestPost", postBO.getLastPostForEachSubSubjects());
             HttpSession session = request.getSession();
             session.setAttribute("currentUrl", request.getRequestURI());
             changeTo("/home.jsp", request, response);
@@ -37,6 +39,8 @@ public class MainController extends HttpServlet {
             request.setAttribute("listPost", postBO.getAllPostsBySubjectID(request.getParameter("IDSubSubject")));
             SubSubjectBO subSubjectBO = new SubSubjectBO();
             request.setAttribute("subSubject", subSubjectBO.getSubject(request.getParameter("IDSubSubject")));
+
+
             HttpSession session = request.getSession();
             session.setAttribute("currentUrl", request.getRequestURI());
             changeTo("/listpost.jsp", request, response);

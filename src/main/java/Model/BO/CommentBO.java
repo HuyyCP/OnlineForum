@@ -63,4 +63,19 @@ public class CommentBO {
         commentDAO.deleteComment(idComment);
     }
 
+    public ArrayList<CommentDTO> getLastCommentForEachPost(String idSubSubject) {
+        ArrayList<Comment> comments = commentDAO.getLastCommentForEachPost(idSubSubject);
+        ArrayList<CommentDTO> commentDTOS = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentDTO commentDTO = new CommentDTO();
+            commentDTO.setIdcomment(comment.getIdcomment());
+            commentDTO.setMessage(comment.getMessage());
+            commentDTO.setDateComment(comment.getDateComment());
+            commentDTO.setIdPost(comment.getIdPost());
+            commentDTO.setIdUser(comment.getIdUser());
+            commentDTO.setUser(userDAO.getUserByID(comment.getIdUser()));
+            commentDTOS.add(commentDTO);
+        }
+        return commentDTOS;
+    }
 }

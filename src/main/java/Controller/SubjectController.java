@@ -1,6 +1,7 @@
 package Controller;
 
 import DTO.SubjectStatDTO;
+import Model.BO.CommentBO;
 import Model.BO.PostBO;
 import Model.BO.SubSubjectBO;
 import Model.BO.SubjectBO;
@@ -69,10 +70,12 @@ public class SubjectController extends HttpServlet {
         Integer index = Integer.parseInt(params[2]);
 
         PostBO postBO = new PostBO();
+        CommentBO commentBO = new CommentBO();
         req.setAttribute("listPost", postBO.getPostsPaging(IDSubSubject, 10, index));
         req.setAttribute("numPages", (int)Math.ceil(((double)postBO.getNumPost(IDSubSubject)) / 10));
         SubSubjectBO subSubjectBO = new SubSubjectBO();
         req.setAttribute("subSubject", subSubjectBO.getSubject(IDSubSubject));
+        req.setAttribute("lastComments", commentBO.getLastCommentForEachPost(IDSubSubject));
         changeTo("/listpost.jsp", req, resp);
     }
 }
