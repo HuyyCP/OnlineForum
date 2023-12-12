@@ -17,14 +17,17 @@ public class DBHelper {
         return null;
     }
 
+    static Connection conn = getConnection();
+
     public static ResultSet query(String sql, Object... params) {
         try {
-            Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             for (int i = 0; i < params.length; i++) {
                 pstmt.setObject(i + 1, params[i]);
             }
-            return pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
+
+            return rs;
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -33,12 +36,12 @@ public class DBHelper {
 
     public static boolean execute(String sql, Object... params) {
         try {
-            Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             for (int i = 0; i < params.length; i++) {
                 pstmt.setObject(i + 1, params[i]);
             }
             int rowsAffected = pstmt.executeUpdate();
+
             return rowsAffected > 0;
         } catch (Exception e) {
             System.out.println(e);

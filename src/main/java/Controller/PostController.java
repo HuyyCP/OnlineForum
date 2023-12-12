@@ -137,7 +137,7 @@ public class PostController extends HttpServlet {
                 post.setContent(content);
                 String uuid = postBO.addPost(post);
                 System.out.println(uuid);
-                resp.sendRedirect("post/" + uuid + "/1");
+                resp.sendRedirect("/post/" + uuid + "/1");
                 break;
             case "/editpost":
                 String idPost = req.getParameter("idPost");

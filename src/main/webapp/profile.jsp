@@ -13,18 +13,21 @@
 <body>
 <jsp:include page="header.jsp"/>
 <%
-    User userLogin = (User) session.getAttribute("user");
+    User userLogin = null;
+    if (session.getAttribute("user") != null) {
+        userLogin = (User) session.getAttribute("user");
+    }
     User profileUser = (User) request.getAttribute("profileUser");
 %>
 
 <!-- Bootstrap form -->
 <div class="container my-4">
-    <form action="../user/update/<%=userLogin.getIdUser()%>" method="post" class="m-3">
+    <form action="../user/update/<%=profileUser.getIdUser()%>" method="post" class="m-3">
         <div class="mb-3">
             <label for="name" class="form-label">Tên người dùng</label>
             <input type="text" class="form-control" id="name" value="<%=profileUser.getName()%>" name="name"
                 <%
-                    if(!profileUser.getIdUser().equals(userLogin.getIdUser())){
+                    if(userLogin == null || !profileUser.getIdUser().equals(userLogin.getIdUser())){
                         %>
                    readonly
                 <%
@@ -40,7 +43,7 @@
             <label for="dateofbirth" class="form-label">Ngày sinh</label>
             <input type="date" class="form-control" id="dateofbirth" value="<%=profileUser.getDob()%>"
                    name="dateofbirth" <%
-                    if(!profileUser.getIdUser().equals(userLogin.getIdUser())){
+                    if(userLogin == null || !profileUser.getIdUser().equals(userLogin.getIdUser())){
                         %>
                    readonly
                 <%
@@ -51,7 +54,7 @@
             <label for="phonenumber" class="form-label">Số điện thoại</label>
             <input type="tel" class="form-control" id="phonenumber" value="<%=profileUser.getPhoneNumber()%>"
                    name="phonenumber" <%
-                    if(!profileUser.getIdUser().equals(userLogin.getIdUser())){
+                    if(userLogin == null || !profileUser.getIdUser().equals(userLogin.getIdUser())){
                         %>
                    readonly
                 <%
@@ -59,10 +62,12 @@
                 %>>
         </div>
         <%
-            if(profileUser.getIdUser().equals(userLogin.getIdUser())){
+            if (userLogin != null) {
+                if (profileUser.getIdUser().equals(userLogin.getIdUser())) {
         %>
         <button type="submit" class="btn btn-primary">Cập nhật</button>
         <%
+                }
             }
         %>
     </form>
