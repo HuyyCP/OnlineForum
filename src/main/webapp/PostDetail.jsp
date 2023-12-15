@@ -30,15 +30,7 @@
     %>
     <div class="container my-4">
         <div class="mb-3">
-            <div class="input-group">
-                <select class="form-select" id="inputGroupSelect04">
-                    <option selected>Everything</option>
-                    <option value="1">Titles</option>
-                    <option value="2">Descriptions</option>
-                </select>
-                <input type="text" class="form-control" placeholder="search ...">
-                <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
-            </div>
+            
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

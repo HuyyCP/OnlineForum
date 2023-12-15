@@ -36,13 +36,7 @@
 %>
 <div class="container my-4">
     <div class="my-3">
-        <div class="input-group">
-            <select class="form-select" id="inputGroupSelect04">
-                <option selected>Everything</option>
-            </select>
-            <input type="text" class="form-control" placeholder="search ...">
-            <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i></button>
-        </div>
+
     </div>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <% if (session.getAttribute("user") != null) { %>
